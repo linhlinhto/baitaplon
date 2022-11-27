@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 
 import javax.swing.ImageIcon;
 import model.Collider;
+import model.vat;
 
 public class map {
 	ve ve;
@@ -23,9 +24,11 @@ public class map {
 	public int[][] mapo;
 	public Image Map;
 	public ImageIcon map;
+	public vat[] vat;
 	public map(View board) {
 		this.board = board;
 		ve = new ve(board);
+		vat = new vat[20];
 	}
 	
 	public void createmap(InputStream mapmatrix) {
@@ -73,14 +76,14 @@ public class map {
 		colli.setCollisionmap(this.mapcolli, 0, 0, 16, 512);
 		colli.setCollisionmap(this.mapcolli, 768-16, 0, 16, 512);
 		colli.setCollisionmap(this.mapcolli, 0, 60, 768, 16);
-		colli.setCollisionmap(this.mapcolli, 0,516, 768, 16);
+		colli.setCollisionmap(this.mapcolli, 0,516-16, 768, 16);
 		int col =0;
 		int row =0;
 		while(col<this.mapw/16 && row <this.maph/16) {
 			
 			while(col<this.mapw/16) {
 					if(mapo[col][row]>6) {
-						ve.vevat(g,mapo[col][row], col, row, mapcolli);
+						ve.vevat(g,mapo[col][row], col, row, mapcolli,this);
 					}
 				col++;
 				

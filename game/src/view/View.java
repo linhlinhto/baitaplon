@@ -17,6 +17,8 @@ import model.vat;
 import model.Collider;
 import model.loadmap;
 public class View extends JPanel implements ActionListener  {
+	public Jframe scr;
+	public startwindown start;
 	public loadmap loadmap = new loadmap(this);
 	Collider colli = new Collider();
 	public playermodel pm = new playermodel();
@@ -24,21 +26,23 @@ public class View extends JPanel implements ActionListener  {
 	public int Width = 768;
 	public int Height = 512+48;
 	public int drawHeight =512;
-	int map;
 	int pixel=16;
-	boolean ingame;
+	public boolean ingame;
+	public boolean gameover;
 	Timer timer;  
-	public TAdapter move = new TAdapter();
+	public TAdapter move = new TAdapter(this);
 	public View(){
 		InitBoard();
+		start = new startwindown(this);
 	}
 	public void InitBoard() {
 		this.addKeyListener(move);
 		this.setBackground(Color.black);
 		this.setFocusable(true);
 		setPreferredSize(new Dimension(Width,Height));
-		map = 1;
 		Initgame();
+		scr = new Jframe(this);
+		scr.setVisible(true);
 	}
 
 	public void Initgame(){
@@ -47,7 +51,8 @@ public class View extends JPanel implements ActionListener  {
 		move.up = false;
 		move.down = false;
 		move.Idle = true;
-		ingame = true;
+		ingame = false;
+		gameover = false;
 		timer = new Timer(1000/60, this);
 		timer.start();
 	}
@@ -77,10 +82,7 @@ public class View extends JPanel implements ActionListener  {
 	 @Override
 	    public void paintComponent(Graphics g) {
 	        super.paintComponent(g);
-	        
-	        
-	        doDrawing(g);
-	        loadmap.loadthismap(g);
+	         doDrawing(g);
 		
 	    }
 	    
@@ -89,14 +91,27 @@ public class View extends JPanel implements ActionListener  {
 					
 	    private void doDrawing(Graphics g) {
 	        
-	        if (ingame) {
+	        if (ingame && !gameover) {
+	        	
+	            loadmap.loadthismap(g);
+	            if(start.paused ) {
+	        		start.Paused(g);
+	        	}
 
-	            Toolkit.getDefaultToolkit().sync();
-
-	        } else {
-
-	            gameOver(g);
-	        }        
+	        } else if(!ingame && !gameover) {
+	        	try {
+	        		if(start.inoption == false) {
+	    	            start.start(g);
+	    	        	}
+	    	        	else {
+	    	        		start.Option(g);
+	    	        	}        
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+	        }
+	        Toolkit.getDefaultToolkit().sync();
+	        	
 	    }
 	   
 	    

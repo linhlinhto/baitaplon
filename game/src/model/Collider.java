@@ -21,9 +21,8 @@ public class Collider {
 	}
 	public void checkcollision(View board,int x, int y,int vel, int[][] mapcolli) {
 		y=y+16;
-		
-		for (int i=x; i<x+34;i++) {
-			for(int j=y;j<y+32;j++) {
+		for (int i=x; i<x+28;i++) {
+			for(int j=y;j<y+40;j++) {
 				for(int k=1;k<=vel;k++) {
 				if(board.move.right == true && mapcolli[i+k][j] > mapcolli[i][j]+1  ) {
 					if(board.pm.right==0) {
