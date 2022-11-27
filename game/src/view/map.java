@@ -12,50 +12,47 @@ import javax.swing.ImageIcon;
 import model.Collider;
 
 public class map {
-	
+	ve ve;
 	public InputStream mapmatrix;
 	public BufferedReader readmap;
 	View board;
 	Collider colli = new Collider();
 	public int mapw;
 	public int maph;
-	public int[][] mapcolli = new int[784][560];
+	public int[][] mapcolli ;
+	public int[][] mapo;
 	public Image Map;
 	public ImageIcon map;
 	public map(View board) {
 		this.board = board;
+		ve = new ve(board);
 	}
 	
-	public void createmap(Graphics g) {
+	public void createmap(InputStream mapmatrix) {
 		
-		colli.setCollisionvat(mapcolli, 0, 0, 768, 560, 0);
-		colli.setCollisionmap(this.mapcolli, 0, 0, 16, 512);
-		colli.setCollisionmap(this.mapcolli, 768-16, 0, 16, 512);
-		colli.setCollisionmap(this.mapcolli, 0, 60, 768, 16);
-		colli.setCollisionmap(this.mapcolli, 0,512, 768, 16);
-		vemap(g);
-	}
-	public void vemap(Graphics g) {
-		
-		ve ve = new ve(board);
-		g.drawImage(Map,-board.pm.dichx,60-board.pm.dichy,board);
-		
+		mapcolli = new int[mapw][maph];
+		mapo = new int[mapw/16][maph/16];
 		try {
+			
 			readmap = new BufferedReader(new InputStreamReader(mapmatrix));
+			
 			int col = 0;
 			int row = 0;
-			while(col<48 && row <35) {
+		
+			while(col<this.mapw/16 && row <this.maph/16) {
+				
 			String line = readmap.readLine()  ;
-			while(col<48) {
+			while(col<this.mapw/16) {
 				String numbers[] = line.split(" ");
 				
 				int num =  Integer.parseInt(numbers[col]);
-				ve.vevat(g, num, col, row, mapcolli);
+				
+				mapo[col][row] = num;
 				
 				col++;
 				
 			}
-			if(col == 48) {
+			if(col == this.mapw/16) {
 				col = 0;
 				row++;	
 			}
@@ -65,5 +62,33 @@ public class map {
 			System.out.println("chiu");
 			// TODO: handle exception
 		}
+	}
+	public void vemap(Graphics g) {
+		 
+		
+		g.drawImage(Map,-board.pm.dichx,60-board.pm.dichy,board);
+		board.pm.Thanhmau(g);
+		g.drawImage(board.pm.player , board.pm.mx,board.pm.my,board);
+		colli.setCollisionvat(mapcolli, 0, 0, 768, 560, 0);
+		colli.setCollisionmap(this.mapcolli, 0, 0, 16, 512);
+		colli.setCollisionmap(this.mapcolli, 768-16, 0, 16, 512);
+		colli.setCollisionmap(this.mapcolli, 0, 60, 768, 16);
+		colli.setCollisionmap(this.mapcolli, 0,516, 768, 16);
+		int col =0;
+		int row =0;
+		while(col<this.mapw/16 && row <this.maph/16) {
+			
+			while(col<this.mapw/16) {
+					if(mapo[col][row]>6) {
+						ve.vevat(g,mapo[col][row], col, row, mapcolli);
+					}
+				col++;
+				
+			}
+			if(col == this.mapw/16) {
+				col = 0;
+				row++;	
+			}
+			}
 	}
 }

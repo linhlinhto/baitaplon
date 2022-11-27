@@ -16,17 +16,19 @@ public class loadmap {
 	public loadmap(View board) {
 		this.board = board;
 		Initmap();
+		map1 = new map1(board);
 	}
 	
 	public void Initmap() {
 		map =1;
+		
 	}
 	public void loadthismap(Graphics g) {
 		if(this.map == 1) {
-			map1 = new map1(board);
+			
 			maph = map1.maph;
 			mapw = map1.mapw;
-			map1.createmap(g);
+			map1.vemap(g);
 			mapcolli = map1.mapcolli;
 		}
 	}

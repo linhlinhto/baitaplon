@@ -18,5 +18,13 @@ public class anhvat {
 		vat[7].height = 100;
 		vat[7].width = 48;
 		vat[7].colliheight = 64;
+		vat[8] = new vat();
+		vat[8].loadanh = new ImageIcon("src/Image/map/tuong.png");
+		vat[8].anhvat = vat[8].loadanh.getImage();
+		vat[8].height = 160;
+		vat[8].width = 80;
+		vat[8].colliheight = 64;
+		
+		
 	}
 }

@@ -78,17 +78,15 @@ public class View extends JPanel implements ActionListener  {
 	    public void paintComponent(Graphics g) {
 	        super.paintComponent(g);
 	        
-	        drawmap(g);
+	        
 	        doDrawing(g);
 	        loadmap.loadthismap(g);
 		
 	    }
 	    
-	 	private void drawmap(Graphics g) {
+	 	
 					
-					pm.Thanhmau(g);
-					g.drawImage(pm.player , pm.mx,pm.my,this); 
-	 	}
+					
 	    private void doDrawing(Graphics g) {
 	        
 	        if (ingame) {
