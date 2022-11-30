@@ -17,23 +17,24 @@ public class ve {
  				y = y*16;
  				if(y+60+map.vat[i].height-board.pm.dichy>0 && x+map.vat[i].width-board.pm.dichx>0 && y+60-board.pm.dichy<560 && x-board.pm.dichx<768) {
  					
- 				if(board.pm.my+40 >= y+60+(map.vat[i].height-map.vat[i].colliheight)-board.pm.dichy ) {
  					
- 					g.drawImage(map.vat[i].anhvat, x-board.pm.dichx, y+60-board.pm.dichy,board);
- 					board.pm.Thanhmau(g);
- 					g.drawImage(board.pm.player , board.pm.mx,board.pm.my,board); 
- 					
- 				}
- 				else if(board.pm.my < y+60+(map.vat[i].height-map.vat[i].colliheight)-board.pm.dichy && board.pm.my>= y+60-board.pm.dichy ) {
- 	 				board.pm.Thanhmau(g);
- 	 				g.drawImage(board.pm.player, board.pm.mx,board.pm.my,board); 
- 	 				g.drawImage(map.vat[i].anhvat, x-board.pm.dichx, y+60-board.pm.dichy,board);
- 	 				
- 	 			}
- 	 			 
- 	 			else  {
- 	 				g.drawImage(map.vat[i].anhvat, x-board.pm.dichx, y+60-board.pm.dichy,board);
- 	 			}
+ 					if(board.pm.my > y-board.pm.dichy &&board.pm.my < y-board.pm.dichy+map.vat[i].height+70&&board.pm.mx+26>x-board.pm.dichx&&board.pm.mx<x-board.pm.dichx+map.vat[i].width) {
+ 						if(board.pm.my < y-board.pm.dichy+map.vat[i].height) {
+ 						board.pm.Thanhmau(g);
+ 	 					g.drawImage(board.pm.player, board.pm.mx,board.pm.my,board); 
+ 	 					g.drawImage(map.vat[i].anhvat, x-board.pm.dichx, y+60-board.pm.dichy,board);
+ 						}
+ 						else {
+ 							board.pm.Thanhmau(g);
+ 	 	 					g.drawImage(map.vat[i].anhvat, x-board.pm.dichx, y+60-board.pm.dichy,board);
+ 	 	 					g.drawImage(board.pm.player, board.pm.mx,board.pm.my,board); 
+ 						}
+ 	 					
+ 					}
+ 						else {
+ 								g.drawImage(map.vat[i].anhvat, x-board.pm.dichx, y+60-board.pm.dichy,board);
+ 		 						board.pm.Thanhmau(g);
+ 						}
  				}
  				if(y+60-board.pm.dichy>0 && x-board.pm.dichx>0 && y+60-board.pm.dichy<560-map.vat[i].height && x-board.pm.dichx<768-map.vat[i].width) {
  					colli.setCollisionvat(mapcolli, x-board.pm.dichx, y+60-board.pm.dichy+map.vat[i].height-map.vat[i].colliheight, map.vat[i].width,map.vat[i].colliheight, i);
@@ -41,4 +42,16 @@ public class ve {
  				
  			
 	    }
+	 	public void vequai(Graphics g,int number,monster[] monster) {
+	 		
+	 		if(!monster[number].dying&&monster[number].alive) {
+	 					monster[number].paintmonster(g);
+	 					if(monster[number].hp>monster[number].newhp||monster[number].counterhp>0) {
+	 		 				monster[number].monsterhp(g);
+	 		 			}
+	 				}
+	 				else if(monster[number].dying&&!monster[number].alive) {
+	 					monster[number].paintmonsterdying(g);
+	 				}
+		}
 }

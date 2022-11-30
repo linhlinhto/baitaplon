@@ -17,6 +17,7 @@ public class map1 extends map {
 		// TODO Auto-generated constructor stub
 		loadmap();
 		createmaptxt();
+		monster();
 	}
 	public void loadmap() {
 		this.map = new ImageIcon("src/Image/map/map1.png");
@@ -35,6 +36,20 @@ public class map1 extends map {
 		}
 		
 		
+	}
+	public void monster() {
+		this.monsternum = 1;
+		monster[] monster = new monster[6];
+		this.monster = new monster[monsternum];
+		monster[0] = new Bee(board);
+		int[] rate = new int[1];
+		rate[0] = 100;
+		this.monster[0] = this.spwammonster(monster, 1, rate);
+		this.monster[0].startx = 128;
+		this.monster[0].starty = 248;
+		this.monster[0].Init();
+		this.monster[0].chieu=1;
+		this.monster[0].mi =0;
 	}
 	public void loadanh() {
 		vat[7] = new vat();

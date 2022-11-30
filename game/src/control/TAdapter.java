@@ -3,6 +3,7 @@ package control;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import model.loadmap;
 import view.Jframe;
 import view.View;
 	public class TAdapter extends KeyAdapter {
@@ -55,6 +56,9 @@ import view.View;
             left = false;
             Idle = false;
         }
+        else if(key == KeyEvent.VK_F) {
+        	board.pm.slashbool = true;
+        }
     	 }
         else if(board.ingame&& !board.gameover &&board.start.paused) {
         	if (key == KeyEvent.VK_DOWN && board.start.option <2) {
@@ -80,6 +84,7 @@ import view.View;
     		 }
     		 else if(key== KeyEvent.VK_ENTER && board.start.option ==1 ) {
     			 board.ingame =true;
+    			 board.loadmap =new loadmap(board);
     		 }
     		 else if(key== KeyEvent.VK_ENTER && board.start.option ==2 ) {
     			 board.start.inoption =true;

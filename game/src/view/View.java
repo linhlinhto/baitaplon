@@ -19,9 +19,9 @@ import model.loadmap;
 public class View extends JPanel implements ActionListener  {
 	public Jframe scr;
 	public startwindown start;
-	public loadmap loadmap = new loadmap(this);
+	public loadmap loadmap ;
 	Collider colli = new Collider();
-	public playermodel pm = new playermodel();
+	public playermodel pm = new playermodel(this);
 	public vat vat = new vat();
 	public int Width = 768;
 	public int Height = 512+48;
@@ -29,7 +29,7 @@ public class View extends JPanel implements ActionListener  {
 	int pixel=16;
 	public boolean ingame;
 	public boolean gameover;
-	Timer timer;  
+	public Timer timer;  
 	public TAdapter move = new TAdapter(this);
 	public View(){
 		InitBoard();
@@ -57,24 +57,52 @@ public class View extends JPanel implements ActionListener  {
 		timer.start();
 	}
 	public void mmove() {
-		colli.checkcollision(this,pm.mx,pm.my, pm.vel, loadmap.mapcolli);
-		pm.dichmap(this);
+		
+		
 		 if(move.right && !move.Idle ) {
-			pm.moveright();
-
-		}
+			 pm.moveright();
+			 colli.checkcollision(this,pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+				if(colli.collision == true) {
+				pm.mx -=pm.vel;
+				move.right = false;
+				move.Idle = true;
+				colli.collision =false;
+				}
+		 }
 		if(move.left && !move.Idle) {
 				pm.moveleft();
+				colli.checkcollision(this,pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+					if(colli.collision == true) {
+					pm.mx +=pm.vel;
+					move.left = false;
+					move.Idle = true;
+					colli.collision =false;
+					}
 		}
 		if(move.up && !move.Idle) {
 				pm.moveup();
+				 colli.checkcollision(this,pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+					if(colli.collision == true) {
+					pm.my +=pm.vel;
+					move.up = false;
+					move.Idle = true;
+					colli.collision = false;
+					}
 		}
 		if(move.down && !move.Idle) {
 				pm.movedown();
+				 colli.checkcollision(this,pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+					if(colli.collision == true) {
+					pm.my -=pm.vel;
+					move.down = false;
+					move.Idle = true;
+					colli.collision = false;
+					}
 		}
 		if(move.Idle) {
 			pm.Idle();
 		}
+		pm.dichmap(this);
 		
 	}
 	
@@ -93,10 +121,13 @@ public class View extends JPanel implements ActionListener  {
 	        
 	        if (ingame && !gameover) {
 	        	
-	            loadmap.loadthismap(g);
+	            loadmap.drawmap(g);
 	            if(start.paused ) {
 	        		start.Paused(g);
 	        	}
+	            else if(pm.slashbool) {
+        			pm.slash(g);
+        		}
 
 	        } else if(!ingame && !gameover) {
 	        	try {

@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 
 import javax.swing.ImageIcon;
 import model.Collider;
+import model.Spwammonster;
 import model.vat;
 
 public class map {
@@ -18,6 +19,8 @@ public class map {
 	public BufferedReader readmap;
 	View board;
 	Collider colli = new Collider();
+	public monster[] monster;
+	public int monsternum;
 	public int mapw;
 	public int maph;
 	public int[][] mapcolli ;
@@ -66,6 +69,23 @@ public class map {
 			// TODO: handle exception
 		}
 	}
+	public monster spwammonster(monster[] monster,int number,int[] rate ) {
+		int m=0;
+		int i = (int) (Math.random()*100);
+		for(int j =0;j<number;j++) {
+			if(j>=1) {
+			if(i<rate[j] && i >rate[j-1] ) {
+				m=j;
+			}
+			}
+			else {
+				m=j;
+			}
+		}
+		return monster[m];
+		
+	}
+	
 	public void vemap(Graphics g) {
 		 
 		
@@ -79,19 +99,30 @@ public class map {
 		colli.setCollisionmap(this.mapcolli, 0,516-16, 768, 16);
 		int col =0;
 		int row =0;
-		while(col<this.mapw/16 && row <this.maph/16) {
-			
-			while(col<this.mapw/16) {
-					if(mapo[col][row]>6) {
-						ve.vevat(g,mapo[col][row], col, row, mapcolli,this);
-					}
-				col++;
+		
+			while(col<this.mapw/16 && row <this.maph/16) {
 				
+				while(col<this.mapw/16) {
+					try {
+							ve.vevat(g,mapo[col][row], col, row, mapcolli,this);
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					col++;
+					
+				}
+				if(col == this.mapw/16) {
+					col = 0;
+					row++;	
+				}
+				}
+				for(int i=0;i<monsternum;i++) {
+					if(monster[i]!=null) {
+						ve.vequai(g,i, monster);
+						if(!monster[i].alive&&!monster[i].dying) {
+							monster[i]=null;
+						}
+					}
+				}
 			}
-			if(col == this.mapw/16) {
-				col = 0;
-				row++;	
-			}
-			}
-	}
 }
