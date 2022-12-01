@@ -7,6 +7,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import view.View;
+import view.monster;
 
 	public class playermodel {
 		public Collider colli;
@@ -362,8 +363,10 @@ import view.View;
 			}
 			if(!slashbool) {
 				for(int i = 0;i<board.loadmap.lomap[board.loadmap.map].monsternum;i++) {
+					if(board.loadmap.lomap[board.loadmap.map].monster[i] != null) {
 					colli.checkslash(this,board.loadmap.lomap[board.loadmap.map].monster[i] ,board.loadmap.lomap[board.loadmap.map].mapcolli );
-				}
+					}
+					}
 			}
 			
 			

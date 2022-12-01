@@ -99,7 +99,6 @@ public class map {
 		colli.setCollisionmap(this.mapcolli, 0,516-16, 768, 16);
 		int col =0;
 		int row =0;
-		colli.setCollisionvat(board.loadmap.lomap[board.loadmap.map].mapcolli,board.pm.mx, board.pm.my+60,board.pm.pwidth , board.pm.pheight, 50);
 			while(col<this.mapw/16 && row <this.maph/16) {
 				
 				while(col<this.mapw/16) {

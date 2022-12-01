@@ -89,6 +89,9 @@ public class monster {
 			paintmonsterdying();
 		}
 		g.drawImage(this.monster,mx-board.pm.dichx,my-board.pm.dichy,board);
+		if(my+60-board.pm.dichy>0 && mx-board.pm.dichx>0 && my+60-board.pm.dichy<560-height && mx-board.pm.dichx<768-width) {
+			 colli.setCollisionvat(board.loadmap.lomap[board.loadmap.map].mapcolli, mx-board.pm.dichx, my+60-board.pm.dichy, width, height, 50);
+			}
 }
 		
 	public void monstermove() {
@@ -167,9 +170,7 @@ public class monster {
 						}
 					}
 			}
-		if(my+60-board.pm.dichy>0 && mx-board.pm.dichx>0 && my+60-board.pm.dichy<560-height && mx-board.pm.dichx<768-width) {
-		 colli.setCollisionvat(board.loadmap.lomap[board.loadmap.map].mapcolli, mx-board.pm.dichx, my+60-board.pm.dichy+60, width, height, 50);
-		}
+		
 		}
 	public void detectplayer() {
 		
