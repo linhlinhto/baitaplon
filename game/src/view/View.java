@@ -53,7 +53,7 @@ public class View extends JPanel implements ActionListener  {
 		move.Idle = true;
 		ingame = false;
 		gameover = false;
-		timer = new Timer(1000/60, this);
+		timer = new Timer(1000/75, this);
 		timer.start();
 	}
 	public void mmove() {
@@ -104,6 +104,7 @@ public class View extends JPanel implements ActionListener  {
 		}
 		pm.dichmap(this);
 		
+		
 	}
 	
 	
@@ -125,9 +126,6 @@ public class View extends JPanel implements ActionListener  {
 	            if(start.paused ) {
 	        		start.Paused(g);
 	        	}
-	            else if(pm.slashbool) {
-        			pm.slash(g);
-        		}
 
 	        } else if(!ingame && !gameover) {
 	        	try {

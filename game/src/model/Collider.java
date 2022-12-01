@@ -2,6 +2,7 @@ package model;
 
 import control.TAdapter;
 import view.View;
+import view.monster;
 public class Collider {
 	public boolean collision = false;
 	public void setCollisionmap(int[][] map ,int rx , int ry, int w, int h) {
@@ -23,7 +24,7 @@ public class Collider {
 		y=y+16;
 		for (int i=x;i<x+width;i++) {
 			for(int j=y;j<y+height;j++) {
-				if( mapcolli[i][j] > 2  ) {
+				if( mapcolli[i][j] > 2 && mapcolli[i][j] !=50 ) {
 					collision = true;
 					break;
 				}
@@ -31,6 +32,16 @@ public class Collider {
 				
 			}
 			
+		}
+	}
+	public void checkslash(playermodel pm ,monster monster, int[][] mapcolli ) {
+		for(int i=pm.mx;i<pm.mx+pm.pwidth;i++) {
+			for(int j=pm.my+60;j<pm.my+pm.pheight+60;j++) {
+				if(mapcolli[i][j]==50) {
+					monster.dameget = 5;
+					monster.atacked =true;
+				}
+			}
 		}
 	}
 }

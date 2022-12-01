@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import view.View;
 
 	public class playermodel {
+		public Collider colli;
 		public int mau;
 		public int mx,my,pwidth,pheight;
 		public int vel;
@@ -18,7 +19,7 @@ import view.View;
 		public boolean slashbool;
 		Image slash;
 		ImageIcon[] slashi;
-		int sli,slashdame,slasrangex,slashrangey;
+		int atackspeed,slashdame,slasrangex,slashrangey;
 		ImageIcon pIdle1,pIdle2,pIdle3,pIdle4,pleft1,pleft2,pright1,pright2,pup1,pup2,pdown1,pdown2;
 		View board;
 		public playermodel(View board) {
@@ -36,6 +37,7 @@ import view.View;
 			vel = 4;
 			left =0;
 			down =1;
+			atackspeed=0;
 			up=0;
 			right=0;
 			slashdame = 5;
@@ -43,6 +45,7 @@ import view.View;
 			slasrangex = 32;
 			slashrangey = 32;
 			loadimageplayer();
+			colli = new Collider();
 	}
 		public void loadimageplayer() {
 			
@@ -72,81 +75,109 @@ import view.View;
 			right=0;
 			up=0;
 			down=0;
-			if(left ==8) {
-				left =1;
+			if(!slashbool) {
+				
+				if(left ==8) {
+						left =1;
+					}
+					else {
+						left++;
+					}
+	
+					if(left>0) {
+						if(left<=4) {
+							player = pleft1.getImage();
+						}
+					else if(left<=8) {
+				
+						player = pleft2.getImage();
+					}
+					}
 			}
 			else {
-				left++;
+				slash(0);
 			}
-		mx -= vel;
-			if(left>0) {
-			if(left<=4) {
-				player = pleft1.getImage();
-			}
-			else if(left<=8) {
-				player = pleft2.getImage();
-			}
-			}
+			mx -= vel;
 			
 			
 		}
 		public void moveright() {
-			if(right>0) {
-			if(right<4) {
-				player = pright1.getImage();
-			}
-			else if(right<=8) {
-				player = pright2.getImage();
-			}
-			}
 			left=0;
 			up=0;
 			down=0;
-			if(right ==8) {
-				right =1;
+			if(!slashbool) {
+				if(right>0) {
+					if(right<4) {
+					player = pright1.getImage();
+				}
+				else if(right<=8) {
+				
+				player = pright2.getImage();
+				
+					}
+				}
+				
+				if(right ==8) {
+					right =1;
+				}
+				else {
+					right++;
+				}
 			}
 			else {
-				right++;
+				slash(1);
 			}
 		mx += vel;
 		}
 		public void moveup() {
-			if(up>0) {
-			if(up<=4) {
-				player = pup1.getImage();
-			}
-			else if(up<=8) {
-				player= pup2.getImage();
-			}
-			}
 			right=0;
 			left=0;
 			down=0;
-			if(up ==8) {
-				up =1;
-			}
+			if(!slashbool) {
+				if(up>0) {
+					if(up<=4) {
+						player = pup1.getImage();
+						}
+						else if(up<=8) {
+							player= pup2.getImage();
+						}
+				}
+						
+						if(up ==8) {
+							up =1;
+						}
+						else {
+							up++;
+						}
+				}
 			else {
-				up++;
+				slash(2);
 			}
 		my -= vel;
 		}
 		public void movedown() {
-			if(down>0) {
-			if(down<=4) {
-				player = pdown1.getImage();
-			}
-			else if(down<=8) {
-				player= pdown2.getImage();
-			}
-			}
 			right=0;
 			up=0;
 			left=0;
-			if(down ==8) {
-				down =1;
+			if(!slashbool) {
+			if(down>0) {
+				if(down<=4) {
+					player = pdown1.getImage();
+				}
+				else if(down<=8) {
+					player= pdown2.getImage();
+				}
+			}
+			
+				if(down ==8) {
+					down =1;
+				}
+				else {
+					down++;
+				}
 			}
 			else {
-				down++;
+				slash(3);
 			}
 	
 			my += vel;
@@ -154,16 +185,36 @@ import view.View;
 		}
 		public void Idle() {
 			if(left>0) {
+				if(!slashbool) {
 				player = pIdle2.getImage();
+				}
+				else {
+					slash(0);
+				}
 			}
 			else if(right>0) {
+				if(!slashbool) {
 				player = pIdle3.getImage();
+				}
+				else {
+					slash(1);
+				}
 			}
 			else if(up>0) {
+				if(!slashbool) {
 				player = pIdle4.getImage();
+				}
+				else {
+					slash(2);
+				}
 			}
 			else if(down>0) {
+				if(!slashbool) {
 				player = pIdle1.getImage();
+				}
+				else {
+					slash(3);
+				}
 			}
 		}
 		public void Thanhmau(Graphics g) {
@@ -203,71 +254,121 @@ import view.View;
 			}
 		}
 	}
-		public void slash(Graphics g) {
-				if(left>0) {
-					slasrangex = slasrangex- mx;
-					slashrangey = my;
-					if(sli!=2) {
-					sli=2;
-					}
-					else {
-						sli++;
-						slashbool = false;
-					}
-					slash = slashi[sli].getImage();
-					g.drawImage(slash,mx-32,my,board);
+		public void slash(int scale) {
+			if(scale==0) {
+				if(atackspeed==0) {
+					mx= mx-32;
+					pwidth = 64;
+					pheight = 43;
+					player = slashi[2].getImage();
+					atackspeed++;
 				}
-				if(right>0) {
-					slasrangex += mx;
-					slashrangey = my;
-					if(sli!=0) {
-					sli=0;
-					}
-					else {
-						sli++;
-						slashbool = false;
-					}
-					slash = slashi[sli].getImage();
-					g.drawImage(slash,mx,my,board);
-					
+				else if(atackspeed<3) {
+					player = slashi[2].getImage();
+					atackspeed++;
 				}
-				if(up>0) {
-					slashrangey -= my;
-					slasrangex = mx;
-					if(sli!=4) {
-					sli=4;
-					}
-					else {
-						sli++;
-						slashbool=false;
-					}
-					slash = slashi[sli].getImage();
-					g.drawImage(slash,mx-8,my-32,board);
-					
+				else if(atackspeed<6) {
+					player = slashi[3].getImage();
+					atackspeed++;
 				}
-				if(down>0) {
-					slashrangey += my;
-					slasrangex = mx;
-					if(sli!=6) {
-					sli=6;
-					}
-					else {
-						sli++;
-						slashbool = false;
-						
-					}
-					slash = slashi[sli].getImage();
-					g.drawImage(slash,mx-8,my,board);
-				}
-				if(slashbool) {
-					
-					
-				}
+				
 				else {
-					slasrangex =32;
-					slashrangey = 32;
+					player = pleft1.getImage();
+					slashbool=false;
+					mx= mx+32;
+					pwidth = 24;
+					pheight = 30;
+					atackspeed=0;
 				}
-
+			}
+			if(scale==1) {
+				if(atackspeed==0) {
+					pwidth=64;
+					pheight = 43;
+					player = slashi[0].getImage();
+					atackspeed++;
+				}
+				else if(atackspeed<3) {
+					player = slashi[0].getImage();
+					atackspeed++;
+				}
+				else if(atackspeed<6) {
+					player = slashi[1].getImage();
+					atackspeed++;
+				}
+				
+				else {
+					player = pright1.getImage();
+					slashbool=false;
+					pwidth = 24;
+					pheight = 30;
+					atackspeed=0;
+				}
+			}
+			if(scale==2) {
+				if(atackspeed==0) {
+					mx=mx-8;
+					my=my-32;
+					pheight = 75;
+					pwidth = 48;
+					player = slashi[4].getImage();
+					atackspeed++;
+				}
+				else if(atackspeed<3) {
+					atackspeed++;
+					player = slashi[4].getImage();
+				}
+				else if(atackspeed<6) {
+					atackspeed++;
+					player = slashi[5].getImage();
+				}
+				
+				else {
+					slashbool=false;
+					mx=mx+8;
+					my=my+32;
+					pwidth = 24;
+					pheight = 30;
+					atackspeed=0;
+					player = pup1.getImage();
+				}
+				
+			}
+			if(scale==3) {
+				if(atackspeed==0) {
+					pheight = 75;
+					pwidth = 48;
+					player = slashi[6].getImage();
+					mx=mx-8;
+					atackspeed++;
+				}
+				else if(atackspeed<3) {
+					player = slashi[6].getImage();
+					atackspeed++;
+				}
+				else if(atackspeed<6) {
+					player = slashi[7].getImage();
+					atackspeed++;
+				}
+				
+				else {
+					player = pdown1.getImage();
+					slashbool=false;
+					pwidth = 24;
+					pheight = 30;
+					mx=mx+8;
+					atackspeed=0;
+				}
+			}
+			if(!slashbool) {
+				for(int i = 0;i<board.loadmap.lomap[board.loadmap.map].monsternum;i++) {
+					colli.checkslash(this,board.loadmap.lomap[board.loadmap.map].monster[i] ,board.loadmap.lomap[board.loadmap.map].mapcolli );
+				}
+			}
+			
+			
+			
+				
 			
 		}
 		

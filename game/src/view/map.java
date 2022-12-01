@@ -99,7 +99,7 @@ public class map {
 		colli.setCollisionmap(this.mapcolli, 0,516-16, 768, 16);
 		int col =0;
 		int row =0;
-		
+		colli.setCollisionvat(board.loadmap.lomap[board.loadmap.map].mapcolli,board.pm.mx, board.pm.my+60,board.pm.pwidth , board.pm.pheight, 50);
 			while(col<this.mapw/16 && row <this.maph/16) {
 				
 				while(col<this.mapw/16) {
@@ -116,9 +116,14 @@ public class map {
 					row++;	
 				}
 				}
+		
 				for(int i=0;i<monsternum;i++) {
 					if(monster[i]!=null) {
+						if(monster[i].mx+monster[i].width-board.pm.dichx>0&&monster[i].my+monster[i].height+60-board.pm.dichy>0&&monster[i].mx-board.pm.dichx<768&&monster[i].my-board.pm.dichy+60<560) {
+						
 						ve.vequai(g,i, monster);
+						
+					}
 						if(!monster[i].alive&&!monster[i].dying) {
 							monster[i]=null;
 						}

@@ -1,8 +1,7 @@
 package model;
 
 import java.awt.Graphics;
-
-import view.Bee;
+import view.Frog;
 import view.View;
 import view.monster;
 
@@ -15,6 +14,6 @@ public class Spwammonster {
 		Spwam();
 	}
 	public void Spwam() {
-		monster[1] = new Bee(board);
+		monster[0] = new Frog(board);
 	}
 }

@@ -40,8 +40,8 @@ public class map1 extends map {
 	public void monster() {
 		this.monsternum = 1;
 		monster[] monster = new monster[6];
+		monster[0] = new Frog(board);
 		this.monster = new monster[monsternum];
-		monster[0] = new Bee(board);
 		int[] rate = new int[1];
 		rate[0] = 100;
 		this.monster[0] = this.spwammonster(monster, 1, rate);

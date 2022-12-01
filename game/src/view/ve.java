@@ -43,15 +43,9 @@ public class ve {
  			
 	    }
 	 	public void vequai(Graphics g,int number,monster[] monster) {
-	 		
-	 		if(!monster[number].dying&&monster[number].alive) {
 	 					monster[number].paintmonster(g);
 	 					if(monster[number].hp>monster[number].newhp||monster[number].counterhp>0) {
 	 		 				monster[number].monsterhp(g);
 	 		 			}
-	 				}
-	 				else if(monster[number].dying&&!monster[number].alive) {
-	 					monster[number].paintmonsterdying(g);
-	 				}
 		}
 }
