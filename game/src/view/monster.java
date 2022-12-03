@@ -158,7 +158,6 @@ public class monster {
 							colli.checkcollision(board, mx-board.pm.dichx, my+32-board.pm.dichy, width, height, vel, board.loadmap.lomap[board.loadmap.map].mapcolli);
 							}
 							if(colli.collision==true) {
-								System.out.println("colli");
 								rx=mx;
 								mx=mx-scalex*vel;
 								colli.collision = false;
@@ -175,7 +174,7 @@ public class monster {
 	public void detectplayer() {
 		
 		
-		if(Math.abs(board.pm.mx-mx-board.pm.dichx)<100&&Math.abs(board.pm.my-my-board.pm.dichy)<100) {
+		if(Math.abs(board.pm.mx-(mx-board.pm.dichx))<100&&Math.abs(board.pm.my-(my-board.pm.dichy))<100) {
 			detectplayer = true;
 		}
 		else {

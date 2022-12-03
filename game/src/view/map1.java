@@ -18,15 +18,17 @@ public class map1 extends map {
 		loadmap();
 		createmaptxt();
 		monster();
+		
 	}
 	public void loadmap() {
+		this.mapw = 1920;
+		this.maph = 1088;
 		this.map = new ImageIcon("src/Image/map/map1.png");
 		this.Map = map.getImage();
 		loadanh();
 	}
 	public void createmaptxt() {
-		this.mapw = 1920;
-		this.maph = 1088;
+		
 		try {
 			this.mapmatrix = getClass().getResourceAsStream("/maptxt/map1.txt");
 			createmap(mapmatrix);
@@ -57,7 +59,7 @@ public class map1 extends map {
 		vat[7].anhvat = vat[7].loadanh.getImage();
 		vat[7].height = 72;
 		vat[7].width = 48;
-		vat[7].colliheight = 64;
+		vat[7].colliheight = 32;
 		vat[8] = new vat();
 		vat[8].loadanh =  new ImageIcon("src/Image/map/dacongu.png");
 		vat[8].anhvat = vat[8].loadanh.getImage();

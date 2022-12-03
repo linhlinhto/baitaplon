@@ -139,6 +139,9 @@ public class View extends JPanel implements ActionListener  {
 					// TODO: handle exception
 				}
 	        }
+	        else if(!ingame && gameover) {
+	        	gameOver(g);
+	        }
 	        Toolkit.getDefaultToolkit().sync();
 	        	
 	    }

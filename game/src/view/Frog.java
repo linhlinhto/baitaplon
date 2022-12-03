@@ -14,7 +14,7 @@ public class Frog extends monster {
 		rangex=32;
 		rangey=0;
 		this.monsterdame = 2;
-		this.atackspeed = 40;
+		this.atackspeed = 80;
 		this.vel = 2;
 		this.scalex = -1;
 		this.height = 60;
@@ -84,8 +84,8 @@ public class Frog extends monster {
 							}
 						}
 						else {
-							if(atk<5) {
-								monster = monsteratk[atk+4].getImage();
+							if(atk/5<5) {
+								monster = monsteratk[atk/5+5].getImage();
 								}
 								else {
 									monster = monsteratk[9].getImage();
@@ -95,7 +95,8 @@ public class Frog extends monster {
 		}
 		else {
 			atack = false;
-			board.pm.mau -= dame;
+			board.pm.mau = board.pm.mau - monsterdame;
+			System.out.println(""+board.pm.mau);
 			atk = 0;
 		}
 		

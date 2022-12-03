@@ -19,14 +19,15 @@ public class ve {
  					
  					
  					if(board.pm.my > y-board.pm.dichy &&board.pm.my < y-board.pm.dichy+map.vat[i].height+70&&board.pm.mx+26>x-board.pm.dichx&&board.pm.mx<x-board.pm.dichx+map.vat[i].width) {
- 						if(board.pm.my < y-board.pm.dichy+map.vat[i].height) {
+ 						if(board.pm.my < y-board.pm.dichy+map.vat[i].height+32) {
  						board.pm.Thanhmau(g);
  	 					g.drawImage(board.pm.player, board.pm.mx,board.pm.my,board); 
  	 					g.drawImage(map.vat[i].anhvat, x-board.pm.dichx, y+60-board.pm.dichy,board);
  						}
  						else {
- 							board.pm.Thanhmau(g);
+ 							
  	 	 					g.drawImage(map.vat[i].anhvat, x-board.pm.dichx, y+60-board.pm.dichy,board);
+ 	 	 					board.pm.Thanhmau(g);
  	 	 					g.drawImage(board.pm.player, board.pm.mx,board.pm.my,board); 
  						}
  	 					

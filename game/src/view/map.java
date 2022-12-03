@@ -31,7 +31,7 @@ public class map {
 	public map(View board) {
 		this.board = board;
 		ve = new ve(board);
-		vat = new vat[20];
+		this.vat = new vat[20];
 	}
 	
 	public void createmap(InputStream mapmatrix) {
@@ -65,7 +65,6 @@ public class map {
 			}
 			readmap.close();
 		} catch (Exception e) {
-			System.out.println("chiu");
 			// TODO: handle exception
 		}
 	}

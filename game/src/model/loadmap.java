@@ -17,7 +17,7 @@ public class loadmap {
 		this.board = board;
 		Initmap();
 		map=1;
-		lomap = new map[4];
+		lomap = new map[5];
 		lomap[1] = new map1(board);	
 	}
 	

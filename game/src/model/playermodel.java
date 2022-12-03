@@ -11,7 +11,7 @@ import view.monster;
 
 	public class playermodel {
 		public Collider colli;
-		public int mau;
+		public int mau,maxhp;
 		public int mx,my,pwidth,pheight;
 		public int vel;
 		public int dichx,dichy;
@@ -28,7 +28,8 @@ import view.monster;
 			Initplayer();
 		}
 		public void Initplayer() {
-			mau = 240;
+			maxhp=40;
+			mau = maxhp;
 			mx = 384;
 			my = 256;
 			pwidth = 24;
@@ -219,9 +220,14 @@ import view.monster;
 			}
 		}
 		public void Thanhmau(Graphics g) {
+			int drawhp = (int)((float)mau/(float)maxhp  *200);
 			g.setColor(Color.RED);
-			g.drawString("HP", 0, 0);
-			g.fillRect(16, 16, mau, 16);
+			g.drawRect(16, 16, 200, 16);
+			g.fillRect(16, 16, drawhp, 16);
+			if(mau <= 0) {
+				board.ingame =false;
+				board.gameover =true;
+			}
 			
 		}
 		public void dichmap(View board) {
