@@ -6,33 +6,38 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
+import monster.monster;
 import view.View;
-import view.monster;
 
 	public class playermodel {
 		public Collider colli;
-		public int mau,maxhp;
+		public int mau,maxhp,poison,counterheal,level,maxlevel,exp,expneeded;
 		public int mx,my,pwidth,pheight;
 		public int vel;
 		public int dichx,dichy;
 		public int left,right,down,up;
 		public Image player;
-		public boolean slashbool;
-		Image slash;
+		public boolean slashbool,healing;
+		Image slash,Poison;
 		ImageIcon[] slashi;
 		int atackspeed,slashdame,slasrangex,slashrangey;
-		ImageIcon pIdle1,pIdle2,pIdle3,pIdle4,pleft1,pleft2,pright1,pright2,pup1,pup2,pdown1,pdown2;
+		ImageIcon pIdle1,pIdle2,pIdle3,pIdle4,pleft1,pleft2,pright1,pright2,pup1,pup2,pdown1,pdown2,poisons;
 		View board;
 		public playermodel(View board) {
 			this.board = board;
 			Initplayer();
 		}
 		public void Initplayer() {
-			maxhp=40;
+			level=1;
+			maxlevel=20;
+			exp=0;
+			expneeded = 60;
+			poison=2;
+			maxhp=40+level*5;
 			mau = maxhp;
 			mx = 384;
 			my = 256;
-			pwidth = 24;
+			pwidth = 28;
 			pheight = 30;
 			dichx = 0;
 			dichy = 0;
@@ -72,8 +77,10 @@ import view.monster;
 			 slashi[5] = new ImageIcon("src/Image/player/upslash2.png");
 			 slashi[6] = new ImageIcon("src/Image/player/downslas1.png");
 			 slashi[7] = new ImageIcon("src/Image/player/downslash2.png");
+			 poisons = new ImageIcon("src/Image/player/poison.png");
+			 Poison = poisons.getImage();
 		}
-		public void moveleft() {
+		public void moveleft() {   // di chuyen sang trai
 			right=0;
 			up=0;
 			down=0;
@@ -103,7 +110,7 @@ import view.monster;
 			
 			
 		}
-		public void moveright() {
+		public void moveright() {		// di chuyen sang phai
 			left=0;
 			up=0;
 			down=0;
@@ -131,7 +138,7 @@ import view.monster;
 			}
 		mx += vel;
 		}
-		public void moveup() {
+		public void moveup() {				// di chuyen len tren
 			right=0;
 			left=0;
 			down=0;
@@ -157,7 +164,7 @@ import view.monster;
 			}
 		my -= vel;
 		}
-		public void movedown() {
+		public void movedown() {		// di chuyen xuong duoi
 			right=0;
 			up=0;
 			left=0;
@@ -185,7 +192,7 @@ import view.monster;
 			my += vel;
 			
 		}
-		public void Idle() {
+		public void Idle() {		// khong di chuyen
 			if(left>0) {
 				if(!slashbool) {
 				player = pIdle2.getImage();
@@ -219,7 +226,7 @@ import view.monster;
 				}
 			}
 		}
-		public void Thanhmau(Graphics g) {
+		public void Thanhmau(Graphics g) { 		// Thanh mau
 			int drawhp = (int)((float)mau/(float)maxhp  *200);
 			g.setColor(Color.RED);
 			g.drawRect(16, 16, 200, 16);
@@ -228,9 +235,31 @@ import view.monster;
 				board.ingame =false;
 				board.gameover =true;
 			}
+			String numpoison  = ""+poison+"X";
+			g.drawImage(Poison, 694, 16,board);
+			g.setFont(new Font(numpoison, Font.BOLD, 16 ));
+			g.drawString(numpoison,680, 38);
+			Exp(g);
+		}
+		public void Exp(Graphics g) {
+			if(exp >= expneeded) {
+				if(level<=maxlevel) {
+				level++;
+				exp=0;
+				expneeded += level*20;
+				}
+				else {
+					exp = expneeded;
+				}
+			}
+				
+			int drawexp = (int)((float)exp/(float)expneeded  *200);
+			g.setColor(Color.GREEN);
+			g.drawRect(16, 32, 200, 6);
+			g.fillRect(16, 32, drawexp, 6);
 			
 		}
-		public void dichmap(View board) {
+		public void dichmap(View board) {	// dich map 
 		for(int i=board.pm.mx;i<board.pm.mx+32;i++) {
 			if(i >= board.Width/2 && (board.pm.dichx) < (board.loadmap.mapw -board.Width) && board.move.right == true) {
 				board.pm.dichx+=board.pm.vel;
@@ -261,7 +290,7 @@ import view.monster;
 			}
 		}
 	}
-		public void slash(int scale) {
+		public void slash(int scale) {		// tan cong chem
 			if(scale==0) {
 				if(atackspeed==0) {
 					mx= mx-32;
@@ -283,7 +312,7 @@ import view.monster;
 					player = pleft1.getImage();
 					slashbool=false;
 					mx= mx+32;
-					pwidth = 24;
+					pwidth = 28;
 					pheight = 30;
 					atackspeed=0;
 				}
@@ -307,7 +336,7 @@ import view.monster;
 				else {
 					player = pright1.getImage();
 					slashbool=false;
-					pwidth = 24;
+					pwidth = 28;
 					pheight = 30;
 					atackspeed=0;
 				}
@@ -334,7 +363,7 @@ import view.monster;
 					slashbool=false;
 					mx=mx+8;
 					my=my+32;
-					pwidth = 24;
+					pwidth = 28;
 					pheight = 30;
 					atackspeed=0;
 					player = pup1.getImage();
@@ -361,7 +390,7 @@ import view.monster;
 				else {
 					player = pdown1.getImage();
 					slashbool=false;
-					pwidth = 24;
+					pwidth = 28;
 					pheight = 30;
 					mx=mx+8;
 					atackspeed=0;
@@ -374,11 +403,31 @@ import view.monster;
 					}
 					}
 			}
+					
+		}
+		public void heal() {// hoi mau
+			if(poison>=0) {
+				if(counterheal==0) {
+					if(poison>0) {
+					poison--;
+					counterheal++;
+					}
+				}
+				else if(counterheal<300) {
+					if(counterheal%30==0 && mau<maxhp) {
+					mau++;
+					}
+					counterheal++;
+				}
+				else {
+					healing = false;
+					counterheal=0;
+			}
 			
-			
-			
-				
-			
+		}
+			else {
+				healing = false;
+			}
 		}
 		
 		

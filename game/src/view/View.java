@@ -20,7 +20,7 @@ public class View extends JPanel implements ActionListener  {
 	public Jframe scr;
 	public startwindown start;
 	public loadmap loadmap ;
-	Collider colli = new Collider();
+	public Collider colli = new Collider();
 	public playermodel pm = new playermodel(this);
 	public vat vat = new vat();
 	public int Width = 768;
@@ -56,12 +56,15 @@ public class View extends JPanel implements ActionListener  {
 		timer = new Timer(1000/75, this);
 		timer.start();
 	}
-	public void mmove() {
+	public void mmove() {  		// Di chuyen nhan vat
+		if(pm.healing) {
+			pm.heal();
+		}
 		
 		
 		 if(move.right && !move.Idle ) {
 			 pm.moveright();
-			 colli.checkcollision(this,pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+			 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
 				if(colli.collision == true) {
 				pm.mx -=pm.vel;
 				move.right = false;
@@ -71,7 +74,7 @@ public class View extends JPanel implements ActionListener  {
 		 }
 		if(move.left && !move.Idle) {
 				pm.moveleft();
-				colli.checkcollision(this,pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+				colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
 					if(colli.collision == true) {
 					pm.mx +=pm.vel;
 					move.left = false;
@@ -81,7 +84,7 @@ public class View extends JPanel implements ActionListener  {
 		}
 		if(move.up && !move.Idle) {
 				pm.moveup();
-				 colli.checkcollision(this,pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+				 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
 					if(colli.collision == true) {
 					pm.my +=pm.vel;
 					move.up = false;
@@ -91,7 +94,7 @@ public class View extends JPanel implements ActionListener  {
 		}
 		if(move.down && !move.Idle) {
 				pm.movedown();
-				 colli.checkcollision(this,pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+				 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
 					if(colli.collision == true) {
 					pm.my -=pm.vel;
 					move.down = false;
@@ -125,6 +128,7 @@ public class View extends JPanel implements ActionListener  {
 	            loadmap.drawmap(g);
 	            if(start.paused ) {
 	        		start.Paused(g);
+	        		timer.stop();
 	        	}
 
 	        } else if(!ingame && !gameover) {
@@ -156,7 +160,7 @@ public class View extends JPanel implements ActionListener  {
 
 	        g.setColor(Color.red);
 	        g.setFont(small);
-	        g.drawString(msg, (1000 - metr.stringWidth(msg)) / 2, 1000 / 2);
+	        g.drawString(msg, 286, 160);
 	    }
 	    
 	    @Override

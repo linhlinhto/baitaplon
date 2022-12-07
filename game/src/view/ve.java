@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import model.Collider;
 import model.vat;
+import monster.monster;
 
 public class ve {
 	Collider colli = new Collider();

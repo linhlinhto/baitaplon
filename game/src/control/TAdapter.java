@@ -21,6 +21,14 @@ import view.View;
     	 
         int key = e.getKeyCode();
         if(board.ingame && !board.gameover && !board.start.paused) {
+        	if(board.loadmap.lomap[board.loadmap.map].inbang==true) {
+        		if(key == KeyEvent.VK_ENTER) {
+        			board.loadmap.lomap[board.loadmap.map].inbang = false;
+        			board.timer.start();
+        			
+        		}
+        	}
+        	else {
         	if(key == KeyEvent.VK_ESCAPE) {
         		this.board.start.paused = true;
         	}
@@ -59,6 +67,13 @@ import view.View;
         else if(key == KeyEvent.VK_F) {
         	board.pm.slashbool = true;
         }
+        else if(key == KeyEvent.VK_E) {
+        	board.pm.healing = true;
+        }
+        else if(key == KeyEvent.VK_ENTER && board.loadmap.lomap[board.loadmap.map].inevent) {
+        	board.loadmap.lomap[board.loadmap.map].event = true;
+        }
+        	}
     	 }
         else if(board.ingame&& !board.gameover &&board.start.paused) {
         	if (key == KeyEvent.VK_DOWN && board.start.option <2) {
@@ -69,6 +84,7 @@ import view.View;
    		 }
    		 else if(key== KeyEvent.VK_ENTER && board.start.option ==1 ) {
    			 board.start.paused =false;
+   			 board.timer.start();
    		 }
    		 else if(key== KeyEvent.VK_ENTER && board.start.option ==2) {
    			 board.scr.dispose();
@@ -105,9 +121,11 @@ import view.View;
         		 }
         		 else if(key== KeyEvent.VK_ENTER && board.start.option ==1 ) {
         			 board.start.dokho =1;
+        			 board.start.inoption = false;
         		 }
         		 else if(key== KeyEvent.VK_ENTER && board.start.option ==2 ) {
         			 board.start.dokho =2;
+        			 board.start.inoption = false;
         		 }
     		 }
     	 }

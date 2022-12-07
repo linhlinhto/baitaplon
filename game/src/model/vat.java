@@ -10,4 +10,7 @@ public class vat {
 	public int width;
 	public int height;
 	public int colliheight;
+	public boolean inevent,eventdone;
+	public ImageIcon loadanh2;
+	public String name;
 }

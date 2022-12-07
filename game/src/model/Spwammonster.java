@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Graphics;
-import view.Frog;
+
+import monster.Frog;
+import monster.monster;
 import view.View;
-import view.monster;
 
 public class Spwammonster {
 	public monster[] monster;

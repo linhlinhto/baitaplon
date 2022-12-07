@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.BufferedReader;
@@ -12,50 +13,57 @@ import javax.swing.ImageIcon;
 import model.Collider;
 import model.Spwammonster;
 import model.vat;
+import monster.monster;
 
 public class map {
+	public boolean inevent = false;
+	public boolean event=false,inbang = false;
 	ve ve;
 	public InputStream mapmatrix;
 	public BufferedReader readmap;
 	View board;
 	Collider colli = new Collider();
 	public monster[] monster;
-	public int monsternum;
+	public int monsternum,inruong;
 	public int mapw;
 	public int maph;
 	public int[][] mapcolli ;
 	public int[][] mapo;
-	public Image Map;
-	public ImageIcon map;
-	public vat[] vat;
+	public Image Map,bang;
+	public ImageIcon map,Bang;
+	public vat vat[];
 	public map(View board) {
+		inruong=0;
 		this.board = board;
 		ve = new ve(board);
 		this.vat = new vat[20];
+		Bang = new ImageIcon("src/Image/map/map1/bang.png");
+		bang = Bang.getImage();
+		
 	}
 	
-	public void createmap(InputStream mapmatrix) {
+	public void createmap(InputStream mapmatrix) {    // Doc map tu file txt
 		
-		mapcolli = new int[mapw][maph];
-		mapo = new int[mapw/16][maph/16];
+		mapcolli = new int[mapw][maph];				// Doc map tu file txt
+		mapo = new int[mapw/16][maph/16];			// Doc map tu file txt
 		try {
 			
-			readmap = new BufferedReader(new InputStreamReader(mapmatrix));
+			readmap = new BufferedReader(new InputStreamReader(mapmatrix)); // Doc map tu file txt
 			
-			int col = 0;
+			int col = 0;									// Doc map tu file txt
 			int row = 0;
 		
-			while(col<this.mapw/16 && row <this.maph/16) {
+			while(col<this.mapw/16 && row <this.maph/16) {			// Doc map tu file txt
 				
 			String line = readmap.readLine()  ;
 			while(col<this.mapw/16) {
-				String numbers[] = line.split(" ");
+				String numbers[] = line.split(" ");						// Doc map tu file txt
 				
-				int num =  Integer.parseInt(numbers[col]);
+				int num =  Integer.parseInt(numbers[col]);				// Doc map tu file txt
 				
-				mapo[col][row] = num;
+				mapo[col][row] = num;									// Doc map tu file txt
 				
-				col++;
+				col++;													// Doc map tu file txt
 				
 			}
 			if(col == this.mapw/16) {
@@ -92,26 +100,48 @@ public class map {
 		board.pm.Thanhmau(g);
 		g.drawImage(board.pm.player , board.pm.mx,board.pm.my,board);
 		colli.setCollisionvat(mapcolli, 0, 0, 768, 560, 0);
-		colli.setCollisionmap(this.mapcolli, 0, 0, 16, 512);
-		colli.setCollisionmap(this.mapcolli, 768-16, 0, 16, 512);
+		colli.setCollisionmap(this.mapcolli, 16, 0, 16, 512);
+		colli.setCollisionmap(this.mapcolli, 768-32, 0, 16, 512);
 		colli.setCollisionmap(this.mapcolli, 0, 60, 768, 16);
-		colli.setCollisionmap(this.mapcolli, 0,516-16, 768, 16);
+		colli.setCollisionmap(this.mapcolli, 0,560-32, 768, 16);
 		int col =0;
 		int row =0;
-			while(col<this.mapw/16 && row <this.maph/16) {
+			while(col<this.mapw/16 && row <this.maph/16) {						// ve map tu mang da doc tu file txt
 				
-				while(col<this.mapw/16) {
-					try {
-							ve.vevat(g,mapo[col][row], col, row, mapcolli,this);
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
-					col++;
+				while(col<this.mapw/16) {// ve map tu mang da doc tu file txt
 					
-				}
+					
+					try {
+						
+						
+							ve.vevat(g,mapo[col][row], col, row, mapcolli,this);  // ve map tu mang da doc tu file txt
+					} catch (Exception e) {										// ve map tu mang da doc tu file txt
+						// TODO: handle exception								// ve map tu mang da doc tu file txt
+					}
+					if(vat[mapo[col][row]]!=null&&vat[mapo[col][row]].name == "Object") {
+						if(Math.abs(board.pm.mx-col*16+board.pm.dichx)<48&&Math.abs(board.pm.my-row*16-60+board.pm.dichy)<48) {
+						colli.checkObject(this,board.pm.mx,board.pm.my,board.pm.pwidth,board.pm.pheight,board.pm.vel, mapcolli, mapo[col][row]);
+							if(event) {	
+								openchest(g, col,row);
+							}
+							}
+					}
+					if(vat[mapo[col][row]]!=null&&vat[mapo[col][row]].name == "Object1") {
+						if(Math.abs(board.pm.mx-col*16+board.pm.dichx)<vat[mapo[col][row]].width&&Math.abs(board.pm.my-row*16-60+board.pm.dichy)<vat[mapo[col][row]].height) {
+						colli.checkObject(this,board.pm.mx,board.pm.my,board.pm.pwidth,board.pm.pheight,board.pm.vel, mapcolli, mapo[col][row]);
+							
+							if(event) {
+								
+								specialevent(g,col,row);
+							}
+							}
+					}
+					col++;														// ve map tu mang da doc tu file txt
+					
+				}																// ve map tu mang da doc tu file txt
 				if(col == this.mapw/16) {
-					col = 0;
-					row++;	
+					col = 0;													// ve map tu mang da doc tu file txt
+					row++;														// ve map tu mang da doc tu file txt
 				}
 				}
 		
@@ -119,13 +149,26 @@ public class map {
 					if(monster[i]!=null) {
 						if(monster[i].mx+monster[i].width-board.pm.dichx>0&&monster[i].my+monster[i].height+60-board.pm.dichy>0&&monster[i].mx-board.pm.dichx<768&&monster[i].my-board.pm.dichy+60<560) {
 						
-						ve.vequai(g,i, monster);
+						ve.vequai(g,i, monster);			// Ve quai vat
 						
 					}
 						if(!monster[i].alive&&!monster[i].dying) {
-							monster[i]=null;
+							monster[i]=null;			// quai vat bien mat sau khi chet
 						}
 					}
 				}
 			}
+	public void openchest(Graphics g,int col,int row) {
+		
+	}
+	public void bang(Graphics g,String Thongbao) {
+		g.drawImage(bang, 234,0,board);
+		//g.setFont(new Font(Thongbao, Font.BOLD, 24));
+		g.drawString(Thongbao, 260, 75);
+		board.timer.stop();
+		
+	}
+public void specialevent(Graphics g, int col, int row){
+		
+	}
 }
