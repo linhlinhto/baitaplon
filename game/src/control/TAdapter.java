@@ -30,6 +30,7 @@ import view.View;
         	}
         	else {
         	if(key == KeyEvent.VK_ESCAPE) {
+        		this.board.ingame = false;
         		this.board.start.paused = true;
         	}
          if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
@@ -75,8 +76,8 @@ import view.View;
         }
         	}
     	 }
-        else if(board.ingame&& !board.gameover &&board.start.paused) {
-        	if (key == KeyEvent.VK_DOWN && board.start.option <2) {
+        else if(!board.ingame&& !board.gameover &&board.start.paused) {
+        	if (key == KeyEvent.VK_DOWN && board.start.option <3) {
    			 board.start.option++;
    		 }
    		 else if(key == KeyEvent.VK_UP && board.start.option >1) {
@@ -84,32 +85,41 @@ import view.View;
    		 }
    		 else if(key== KeyEvent.VK_ENTER && board.start.option ==1 ) {
    			 board.start.paused =false;
-   			 board.timer.start();
+   			 board.ingame = true;
    		 }
    		 else if(key== KeyEvent.VK_ENTER && board.start.option ==2) {
+   			 board.start.paused = false;
+   			 board.start.option =1;
+   		 }
+   		 else if(key== KeyEvent.VK_ENTER && board.start.option ==3) {
    			 board.scr.dispose();
    		 }
         }
-    	 else if(!board.ingame && !board.gameover) {
-    		 if(!board.start.inoption) {
-    		 if (key == KeyEvent.VK_DOWN && board.start.option <3) {
+    	 else if(!board.ingame && !board.gameover &&!board.start.paused) {
+    		 if(!board.start.inoption&&!board.start.inHelp) {
+    		 if (key == KeyEvent.VK_DOWN && board.start.option <4) {
     			 board.start.option++;
     		 }
     		 else if(key == KeyEvent.VK_UP && board.start.option >1) {
     			 board.start.option--;
     		 }
     		 else if(key== KeyEvent.VK_ENTER && board.start.option ==1 ) {
-    			 board.ingame =true;
-    			 board.loadmap =new loadmap(board);
+    			 board.Initgame();
+    			 board.ingame = true;
+    			 
     		 }
     		 else if(key== KeyEvent.VK_ENTER && board.start.option ==2 ) {
     			 board.start.inoption =true;
+    			 board.start.option =1;
     		 }
     		 else if(key== KeyEvent.VK_ENTER && board.start.option ==3 ) {
+    			 board.start.inHelp = true;
+    		 }
+    		 else if(key== KeyEvent.VK_ENTER && board.start.option ==4 ) {
     			 board.scr.dispose();
     		 }
     		 }
-    		 else {
+    		 else if(board.start.inoption&&!board.start.inHelp) {
     			 if(key == KeyEvent.VK_ESCAPE) {
     				 board.start.inoption = false;
     			 }
@@ -127,6 +137,30 @@ import view.View;
         			 board.start.dokho =2;
         			 board.start.inoption = false;
         		 }
+    		 }
+    		 else {
+    			 if(key == KeyEvent.VK_ESCAPE || key == KeyEvent.VK_ENTER) {
+    				 board.start.inHelp = false;
+    			 }
+    		 }
+    	 }
+    	 else if(!board.ingame && board.gameover &&!board.start.paused) {
+    		 if (key == KeyEvent.VK_DOWN && board.start.option <3) {
+    			 board.start.option++;
+    		 }
+    		 else if(key == KeyEvent.VK_UP && board.start.option >1) {
+    			 board.start.option--;
+    		 }
+    		 else if(key== KeyEvent.VK_ENTER && board.start.option ==1 ) {
+    			 board.Initgame();
+    			 board.ingame = true;
+    		 }
+    		 else if(key== KeyEvent.VK_ENTER && board.start.option ==2 ) {
+    			 board.gameover = false;
+    			 board.start.option =1;
+    		 }
+    		 else if(key== KeyEvent.VK_ENTER && board.start.option ==3 ) {
+    			 board.scr.dispose();
     		 }
     	 }
     	 
