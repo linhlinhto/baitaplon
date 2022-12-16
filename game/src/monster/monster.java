@@ -59,7 +59,8 @@ public class monster {
 		if(alive == true&&!dying) {
 			if(!atacked) {
 				if(!atack) {
-					if(mx+width-board.pm.dichx>0&&mx-board.pm.dichx<768&&my+height-board.pm.dichy>0&&my-board.pm.dichy<560) {
+					
+					if(mx+width-board.pm.dichx>0&&mx-board.pm.dichx<768&&my+height-board.pm.dichy>0&&my-board.pm.dichy+60<560) {
 						if(monsteri<monsternumim*5) {
 							if(scalex == -1) {
 								this.monster = monsterim[monsteri/5].getImage();
@@ -147,7 +148,7 @@ public class monster {
 			if((scaley*(ry-my))>vel) {
 				my=my+ scaley*vel;
 				if(my-board.pm.dichy>0 && mx-board.pm.dichx>0 && my+60-board.pm.dichy<560-height && mx-board.pm.dichx<768-width) {
-					colli.checkcollision( mx-board.pm.dichx, my+60-board.pm.dichy, width, height, vel, board.loadmap.lomap[board.loadmap.map].mapcolli);
+					colli.checkcollisionm( mx-board.pm.dichx, my+60-board.pm.dichy, width, height, vel, board.loadmap.lomap[board.loadmap.map].mapcolli);
 					}
 						if(colli.collision==true||atack ==true) {
 							ry=my;
@@ -160,7 +161,7 @@ public class monster {
 							if((scalex*(rx-mx))>vel) {
 							mx= mx + scalex*vel;
 							if(my+60-board.pm.dichy>0 && mx-board.pm.dichx>0 && my+60-board.pm.dichy<560-height && mx-board.pm.dichx<768-width) {
-							colli.checkcollision( mx-board.pm.dichx, my+60-board.pm.dichy, width, height, vel, board.loadmap.lomap[board.loadmap.map].mapcolli);
+							colli.checkcollisionm( mx-board.pm.dichx, my+60-board.pm.dichy, width, height, vel, board.loadmap.lomap[board.loadmap.map].mapcolli);
 							}
 							if(colli.collision==true||atack ==true) {
 								rx=mx;
@@ -253,7 +254,7 @@ public class monster {
 			if(scalex ==-1) {
 			monster = monsteratked[0].getImage();
 			}
-			else {
+			else  {
 				monster = monsteratked[1].getImage();
 			}
 			atackedcounter++;
@@ -269,7 +270,7 @@ public class monster {
 		for(int i = my-16-board.pm.dichy;i<my-board.pm.dichy+height;i++) {
 			for(int j = mx-board.pm.dichx;j<mx-board.pm.dichx+width;j++) {
 				try {
-				if(i==(board.pm.my+(-scaley)*rangey) && j == (board.pm.mx+(-scalex)*rangex)) {
+				if(rangey>=Math.abs(board.pm.my-i) && rangex>= Math.abs(board.pm.mx-j)) {
 					detectplayer = false;
 					atack = true;
 					break;

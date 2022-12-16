@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 public class Jframe extends JFrame {
 	public Jframe(View board) {
 		this.add(board);
+		this.setName("RPG Game");
 		this.setSize(768,576);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);

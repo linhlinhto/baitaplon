@@ -18,31 +18,32 @@ import model.Collider;
 import model.loadmap;
 public class View extends JPanel implements ActionListener  {
 	public Jframe scr;
-	public startwindown start;
+	public StartMenu start;
 	public loadmap loadmap ;
 	public Collider colli = new Collider();
-	public playermodel pm = new playermodel(this);
+	public playermodel pm;
 	public vat vat = new vat();
 	public int Width = 768;
-	public int Height = 512+48;
+	public int Height = 560;
 	public int drawHeight =512;
 	int pixel=16;
 	public boolean ingame;
-	public boolean gameover;
+	public boolean gameover,win;
 	public Timer timer;  
 	public TAdapter move = new TAdapter(this);
 	public View(){
 		InitBoard();
-		start = new startwindown(this);
+		start = new StartMenu(this);
 	}
 	public void InitBoard() {
 		this.addKeyListener(move);
 		this.setBackground(Color.black);
 		this.setFocusable(true);
 		setPreferredSize(new Dimension(Width,Height));
-		Initgame();
 		scr = new Jframe(this);
 		scr.setVisible(true);
+		timer = new Timer(1000/75, this);
+		timer.start();
 	}
 
 	public void Initgame(){
@@ -53,8 +54,10 @@ public class View extends JPanel implements ActionListener  {
 		move.Idle = true;
 		ingame = false;
 		gameover = false;
-		timer = new Timer(1000/75, this);
-		timer.start();
+		win = false;
+		loadmap = new loadmap(this);
+		pm = new playermodel(this);
+		
 	}
 	public void mmove() {  		// Di chuyen nhan vat
 		if(pm.healing) {
@@ -64,7 +67,7 @@ public class View extends JPanel implements ActionListener  {
 		
 		 if(move.right && !move.Idle ) {
 			 pm.moveright();
-			 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+			 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli,loadmap,pm);
 				if(colli.collision == true) {
 				pm.mx -=pm.vel;
 				move.right = false;
@@ -74,7 +77,7 @@ public class View extends JPanel implements ActionListener  {
 		 }
 		if(move.left && !move.Idle) {
 				pm.moveleft();
-				colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+				colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli,loadmap,pm);
 					if(colli.collision == true) {
 					pm.mx +=pm.vel;
 					move.left = false;
@@ -84,7 +87,7 @@ public class View extends JPanel implements ActionListener  {
 		}
 		if(move.up && !move.Idle) {
 				pm.moveup();
-				 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+				 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli,loadmap,pm);
 					if(colli.collision == true) {
 					pm.my +=pm.vel;
 					move.up = false;
@@ -94,7 +97,7 @@ public class View extends JPanel implements ActionListener  {
 		}
 		if(move.down && !move.Idle) {
 				pm.movedown();
-				 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli);
+				 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight,pm.vel, loadmap.lomap[loadmap.map].mapcolli,loadmap,pm);
 					if(colli.collision == true) {
 					pm.my -=pm.vel;
 					move.down = false;
@@ -126,25 +129,24 @@ public class View extends JPanel implements ActionListener  {
 	        if (ingame && !gameover) {
 	        	
 	            loadmap.drawmap(g);
-	            if(start.paused ) {
-	        		start.Paused(g);
-	        		timer.stop();
-	        	}
+	           
 
-	        } else if(!ingame && !gameover) {
+	        }
+	        else if(!ingame && !gameover) {
 	        	try {
-	        		if(start.inoption == false) {
+	        		 
+	        		if(!start.paused) {
 	    	            start.start(g);
 	    	        	}
-	    	        	else {
-	    	        		start.Option(g);
-	    	        	}        
+	        		else if( start.paused ) {
+	 	        		start.Paused(g);
+	 	        	} 
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
 	        }
 	        else if(!ingame && gameover) {
-	        	gameOver(g);
+	        	start.gameOver(g);
 	        }
 	        Toolkit.getDefaultToolkit().sync();
 	        	
@@ -152,16 +154,7 @@ public class View extends JPanel implements ActionListener  {
 	   
 	    
 
-	    private void gameOver(Graphics g) {
-	        
-	        String msg = "Game Over";
-	        Font small = new Font("Helvetica", Font.BOLD, 36);
-	        FontMetrics metr = getFontMetrics(small);
-
-	        g.setColor(Color.red);
-	        g.setFont(small);
-	        g.drawString(msg, 286, 160);
-	    }
+	   
 	    
 	    @Override
 	    public void actionPerformed(ActionEvent e) {

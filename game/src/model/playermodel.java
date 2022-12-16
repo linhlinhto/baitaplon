@@ -243,11 +243,19 @@ import view.View;
 		}
 		public void Exp(Graphics g) {
 			if(exp >= expneeded) {
-				if(level<=maxlevel) {
-				level++;
-				exp=0;
-				expneeded += level*20;
-				}
+				
+				if(level<=maxlevel && !board.loadmap.lomap[board.loadmap.map].event) {
+					
+						level++;
+						String levelup= "                level up to "+level ;
+						exp=0;
+						expneeded += level*20;
+						board.loadmap.lomap[board.loadmap.map].inbang = true;
+					if(board.loadmap.lomap[board.loadmap.map].inbang) {
+						board.loadmap.lomap[board.loadmap.map].bang(g, levelup);
+						}
+					}
+				
 				else {
 					exp = expneeded;
 				}
@@ -261,7 +269,7 @@ import view.View;
 		}
 		public void dichmap(View board) {	// dich map 
 		for(int i=board.pm.mx;i<board.pm.mx+32;i++) {
-			if(i >= board.Width/2 && (board.pm.dichx) < (board.loadmap.mapw -board.Width) && board.move.right == true) {
+			if(i >= board.Width/2 && (board.pm.dichx) < (board.loadmap.mapw -board.Width+16) && board.move.right == true) {
 				board.pm.dichx+=board.pm.vel;
 				board. pm.mx-=board.pm.vel;
 				 break;
@@ -275,7 +283,7 @@ import view.View;
 			}
 		}
 		for(int j=board.pm.my;j<board.pm.my+30;j++) {
-			if(j >= board.Height/2 && (board.pm.dichy) < (board.loadmap.maph - 512) && board.move.down == true) {
+			if(j >= board.Height/2 && (board.pm.dichy) < (board.loadmap.maph - 512+20) && board.move.down == true) {
 				board.pm.dichy += board.pm.vel;
 				board.pm.my-=board.pm.vel;
 				break;
