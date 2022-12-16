@@ -108,9 +108,8 @@ public class map {
 			while(col<this.mapw/16 && row <this.maph/16) {						// ve map tu mang da doc tu file txt
 				
 				while(col<this.mapw/16) {// ve map tu mang da doc tu file txt
-					
 					try {
-							ve.vevat(g,mapo[col][row], col, row, mapcolli,this);  // ve map tu mang da doc tu file txt
+							ve.vevat(g,mapo[col][row], col, row, mapcolli,this); // ve map tu mang da doc tu file txt
 					} catch (Exception e) {										// ve map tu mang da doc tu file txt
 						// TODO: handle exception								// ve map tu mang da doc tu file txt
 					}

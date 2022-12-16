@@ -171,6 +171,8 @@ public class map1 extends map {
 			thongbao = "ban nhan duoc chia khoa";
 			havekey=true;
 			inruong++;
+			inbang=true;
+			g.setColor(Color.GREEN);
 			}
 			else {
 				inruong++;

@@ -15,6 +15,7 @@ public class map3 extends map {
 	int inruong;
 	int congu;
 	int dacongu;
+	boolean boss;
 	public map3(View board) {
 	super(board);
 	// TODO Auto-generated constructor stub
@@ -27,8 +28,9 @@ public class map3 extends map {
 	inruong=0;
 	congu=0;
 	dacongu=0;
+	boss = false;
 	this.mapw = 1920;
-	this.maph = 1088;
+	this.maph = 1100;
 	this.map = new ImageIcon("src/Image/map/map3/map3.png"); // load background map
 	this.Map = map.getImage();
 	loadanh();
@@ -60,7 +62,7 @@ public class map3 extends map {
 	public void loadanh() {   // load anh cua do vat tren map
 		vat[2] = new vat();
 		vat[2].height = 16;
-		vat[2].width = 112;
+		vat[2].width = 160;
 		vat[2].colliheight = 16;
 	vat[7] = new vat();
 	vat[7].name = "Object1";
@@ -100,10 +102,10 @@ public class map3 extends map {
 	vat[12].width = 36;
 	vat[12].colliheight = 6;
 	vat[14] = new vat();
-	vat[14].loadanh = new ImageIcon("src/Image/map/map3/cay.png");
+	vat[14].loadanh = new ImageIcon("src/Image/map/map3/wallblock.png");
 	vat[14].anhvat = vat[14].loadanh.getImage();
-	vat[14].height = 144;
-	vat[14].width = 112;
+	vat[14].height = 16;
+	vat[14].width = 160;
 	vat[14].colliheight = 16 ;
 	vat[16] = new	vat();
 	vat[16].loadanh = new ImageIcon("src/Image/map/map3/thung.png");
@@ -185,6 +187,8 @@ public class map3 extends map {
 	if(congu%2==0&&congu>0) {
 		thongbao = "Ban da kich hoat da co ngu ";
 		congu--;
+		dacongu++;
+		System.out.println(""+dacongu);
 		inbang= true;
 	}
 	else {
@@ -196,9 +200,15 @@ public class map3 extends map {
 		}
 		else if(congu>0) {
 				congu--;
+				if(dacongu==4) {
+					boss = true;
+					mapo[56][67] = 14;
+					
+				}
 				this.event = false;
 				this.inevent = false;
 				mapo[col][row]++;
+				
 		}
 	
 	}
