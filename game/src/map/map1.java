@@ -18,7 +18,8 @@ import monster.monster;
 import view.View;
 
 public class map1 extends map {
-
+	boolean havekey;
+	 int ruong =4,eventt;
 	public map1(View board) {
 		super(board);
 		// TODO Auto-generated constructor stub
@@ -33,6 +34,8 @@ public class map1 extends map {
 		this.map = new ImageIcon("src/Image/map/map1/map1.png"); // load background map
 		this.Map = map.getImage();
 		loadanh();
+		havekey = false;
+		eventt=0;
 		}
 		public void createmaptxt() {
 		
@@ -108,7 +111,7 @@ public class map1 extends map {
 		vat[13].width = 128;
 		vat[13].colliheight = 16 ;
 		vat[14] = new	vat();
-		vat[14].name = "Object2";
+		vat[14].name = "Object1";
 		vat[14].loadanh = new ImageIcon("src/Image/map/map1/door.png");
 		vat[14].anhvat = vat[14].loadanh.getImage();
 		vat[14].height = 64;
@@ -163,21 +166,59 @@ public class map1 extends map {
 		inruong++;
 		inbang=true;
 		}
+		else if(inruong==4) {
+			if (ruong==1) {
+			thongbao = "ban nhan duoc chia khoa";
+			havekey=true;
+			inruong++;
+			}
+			else {
+				inruong++;
+			}
+		}
+		
 		if(inbang == true) {
 		bang(g,thongbao);
 		}
 		else {
 			inruong++;
-			if(inruong>=3) {
+			if(inruong>=5) {
 				
 				this.event = false;
 				this.inevent = false;
+				ruong--;
 				mapo[col][row]++;
 				inruong=0;
 			}
 		}
 		
 		}
+	@Override
+	public void specialevent(Graphics g, int col, int row){
+		String thongbao=null;
+		if(eventt==0) {
+		if(havekey) {
+			thongbao = "Ban da mo cua";
+			inbang = true;
+			mapo[col][row]++;
+			eventt++;
+		}
+		else {
+			thongbao = "Ban khong co chia khoa";
+			inbang= true;
+			eventt++;
+		}
+		}
+		if(!inbang && eventt != 0) {
+			this.event = false;
+			this.inevent = false;
+			eventt=0;
+		}
+		else if(inbang) {
+			bang(g, thongbao);
+		}
+		
+	}
 		
 	 
 
