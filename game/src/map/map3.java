@@ -48,8 +48,9 @@ public class map3 extends map {
 	
 	}
 	public void monster() {
-	this.monsternum = 16;
-	this.monster = new monster[monsternum];
+		this.monstermaxnum =16;
+		this.monsternum = this.monstermaxnum;
+		this.monster = new monster[this.monstermaxnum];
 
 	this.spwammonster(this.monster,0,128,248,3);
 	this.spwammonster(this.monster,1,128,108,3);
@@ -144,8 +145,12 @@ public class map3 extends map {
 	vat[19].height = 48;
 	vat[19].width = 60;
 	vat[19].colliheight = 24;
-	
-	
+	vat[98] = new vat();
+	vat[98].loadanh = new ImageIcon("src/Image/map/map3/Portal.png");
+	vat[98].anhvat = vat[98].loadanh.getImage();
+	vat[98].height = 65;
+	vat[98].width = 96;
+	vat[98].colliheight = 65;
 	}
 	@Override
 	public void openchest(Graphics g, int col,int row) {
@@ -198,6 +203,7 @@ public class map3 extends map {
 	if(monsternum<=0 && congu>0) {
 		if(congu%2==0) {
 			thongbao = "Bạn đã kích hoạt đá cổ ngữ ";
+			g.setColor(Color.GREEN);
 			congu--;
 			dacongu++;
 			inbang= true;
@@ -210,11 +216,11 @@ public class map3 extends map {
 				congu--;
 				if(dacongu==4) {
 					this.boss = true;
-					monsternum++;
+					monsternum=1;
 					this.monster[0] = new Asimole1(board);
 					this.monster[0].startx = 1920/2-50;
 					this.monster[0].starty = 768/2+100;
-					this.monster[0].Init(1,1);
+					this.monster[0].Init(1,0);
 					mapo[56][67] = 14;
 					
 				}
@@ -229,4 +235,12 @@ public class map3 extends map {
 	}
 	
 	}
+	@Override
+public void checkboss() {
+	if(monsternum==0) {
+		boss=false;
+		this.mapo[60][35] = 98;
+	}
+	}
+	
 }

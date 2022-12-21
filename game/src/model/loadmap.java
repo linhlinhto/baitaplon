@@ -19,7 +19,6 @@ public class loadmap {
 		Initmap();
 	
 	}
-	
 	public void Initmap() {
 		lomap = new map[5];
 		lomap[1] = new map1(board);	

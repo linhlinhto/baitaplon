@@ -50,14 +50,15 @@ public class map1 extends map {
 		
 		}
 		public void monster() {
-		this.monsternum = 8;
-		this.monster = new monster[monsternum];
-		this.spwammonster(this.monster,0,128,248,1);
-		this.spwammonster(this.monster,1,268,248,1);
-		this.spwammonster(this.monster,2,196,412,1);
-		this.spwammonster(this.monster,3,1448,248,1);
+			this.monstermaxnum =8;
+		this.monsternum = this.monstermaxnum;
+		this.monster = new monster[this.monstermaxnum];
+		this.spwammonster(this.monster,0,124,248,1);
+		this.spwammonster(this.monster,1,224,248,1);
+		this.spwammonster(this.monster,2,192,435,1);
+		this.spwammonster(this.monster,3,1448,312,1);
 		this.spwammonster(this.monster,4,1217,126,1);
-		this.spwammonster(this.monster,5,678,789,1);
+		this.spwammonster(this.monster,5,620,789,1);
 		this.spwammonster(this.monster,6,1678,326,1);
 		this.spwammonster(this.monster,7,164,768,1);
 
@@ -119,8 +120,6 @@ public class map1 extends map {
 		vat[14].width = 48;
 		vat[14].colliheight = 16 ;
 		vat[15] = new vat();
-		vat[15].loadanh = new ImageIcon("src/Image/map/map1/opendoor.png");
-		vat[15].anhvat = vat[15].loadanh.getImage();
 		vat[15].height = 60;
 		vat[15].width = 48;
 		vat[15].colliheight = 0 ;
@@ -150,26 +149,26 @@ public class map1 extends map {
 		int rate;
 		g.setColor(Color.WHITE);
 		if(inruong==0) {
-		rate =  r.nextInt(100);
-		
-		if(rate<75 ) {
+			rate =  r.nextInt(100);
 			
-			thongbao="Ban nhan duoc 1 binh mau";
-			board.pm.poison++;
+			if(rate<75 ) {
+				
+				thongbao="Bạn nhận được 1 bình máu";
+				board.pm.poison++;
+				inruong++;
+				inbang=true;
+			}
+			}
+			else if(inruong==2) {
+			rate = r.nextInt(200);
+			thongbao = "Bạn nhận được "+rate+" exp";
+			board.pm.exp +=rate;
 			inruong++;
 			inbang=true;
-		}
-		}
-		else if(inruong==2) {
-		rate = r.nextInt(200);
-		thongbao = "ban nhan duoc "+rate+" exp";
-		board.pm.exp +=rate;
-		inruong++;
-		inbang=true;
-		}
+			}
 		else if(inruong==4) {
 			if (ruong==1) {
-			thongbao = "ban nhan duoc chia khoa";
+			thongbao = "bạn nhận được chìa khóa";
 			havekey=true;
 			inruong++;
 			inbang=true;
@@ -201,18 +200,18 @@ public class map1 extends map {
 		String thongbao=null;
 		if(eventt==0) {
 		if(havekey) {
-			thongbao = "Ban da mo cua";
+			thongbao = "Bạn đã mở cửa";
 			inbang = true;
 			mapo[col][row]++;
 			eventt++;
 		}
 		else {
-			thongbao = "Ban khong co chia khoa";
+			thongbao = "Bạn không có chìa khóa";
 			inbang= true;
 			eventt++;
 		}
 		}
-		if(!inbang && eventt != 0) {
+		if(!inbang && eventt > 0) {
 			this.event = false;
 			this.inevent = false;
 			eventt=0;

@@ -28,7 +28,7 @@ public class map {
 	View board;
 	Collider colli = new Collider();
 	public monster[] monster;
-	public int monsternum,inruong;
+	public int monsternum,monstermaxnum,inruong;
 	public int mapw;
 	public int maph;
 	public int[][] mapcolli ;
@@ -40,15 +40,25 @@ public class map {
 		inruong=0;
 		this.board = board;
 		ve = new ve(board);
-		this.vat = new vat[20];
+		this.vat = new vat[101];
+		
 		Bang = new ImageIcon("src/Image/map/map3/bang.png");
 		bang = Bang.getImage();
 		
 	}
 	
-	public void createmap(InputStream mapmatrix) {    // Doc map tu file txt
+	public void createmap(InputStream mapmatrix) {		// Doc map tu file txt
+		vat[100] = new vat();
+		vat[100].width = mapw-16;
+		vat[100].height = 16;
+		vat[100].colliheight=16;
 		
-		mapcolli = new int[mapw][maph];				// Doc map tu file txt
+		vat[99] = new vat();
+		vat[99].width = 16;
+		vat[99].height = maph-16;
+		vat[99].colliheight=maph-16;
+		
+		mapcolli = new int[this.mapw+16][this.maph+96];				// Doc map tu file txt
 		mapo = new int[mapw/16][maph/16];			// Doc map tu file txt
 		try {
 			
@@ -66,6 +76,8 @@ public class map {
 				int num =  Integer.parseInt(numbers[col]);				// Doc map tu file txt
 				
 				mapo[col][row] = num;									// Doc map tu file txt
+				
+				
 				
 				col++;													// Doc map tu file txt
 				
@@ -101,34 +113,23 @@ public class map {
 		 
 		
 		g.drawImage(Map,-board.pm.dichx,60-board.pm.dichy,board);
-		g.drawImage(board.pm.player, board.pm.mx,board.pm.my,board); 
-		colli.setCollisionvat(mapcolli, 0, 0, 768, 560, 0);
-		if(board.pm.dichx==0) {
-		colli.setCollisionmap(this.mapcolli, 0, 0, 16, 560);
-		}
-		if(board.pm.dichx>= this.mapw -board.Width  ) {
-		colli.setCollisionmap(this.mapcolli, 768-32, 0, 16, 560);
-		}
-		if(board.pm.dichy==0  ) {
-		colli.setCollisionmap(this.mapcolli, 0, 60, 768, 16);
-		}
-		if(board.pm.dichy>= this.maph -board.Height  ) {
-		colli.setCollisionmap(this.mapcolli, 0,560-32, 768, 16);
-		}
+		g.drawImage(board.pm.player, board.pm.mx,board.pm.my,board);
+		colli.setCollisionvat(mapcolli, 0, 0, mapw, maph,0);
 		int col =0;
 		int row =0;
+		
 		
 			while(col<this.mapw/16 && row <this.maph/16) {						// ve map tu mang da doc tu file txt
 				
 				while(col<this.mapw/16) {// ve map tu mang da doc tu file txt
 					try {
 							ve.vevat(g,mapo[col][row], col, row, mapcolli,this); // ve map tu mang da doc tu file txt
-					} catch (Exception e) {										// ve map tu mang da doc tu file txt
+					} catch (Exception e) {						// ve map tu mang da doc tu file txt
 						// TODO: handle exception								// ve map tu mang da doc tu file txt
 					}
 					if(vat[mapo[col][row]]!=null&&vat[mapo[col][row]].name == "Object") {
 						if(Math.abs(board.pm.mx-col*16+board.pm.dichx)<48&&Math.abs(board.pm.my-row*16-60+board.pm.dichy)<48) {
-						colli.checkObject(this,board.pm.mx,board.pm.my,board.pm.pwidth,board.pm.pheight,board.pm.vel, mapcolli, mapo[col][row]); // mo ruong
+							colli.checkObject(this,board.pm.mx+board.pm.dichx,board.pm.my+board.pm.dichy,board.pm.pwidth,board.pm.pheight,board.pm.vel, mapcolli, mapo[col][row]);// mo ruong
 							if(event) {									// mo ruong
 								openchest(g, col,row);
 							}
@@ -136,10 +137,9 @@ public class map {
 					}
 					if(vat[mapo[col][row]]!=null&&vat[mapo[col][row]].name == "Object1") {
 						if(Math.abs(board.pm.mx-col*16+board.pm.dichx)<vat[mapo[col][row]].width&&Math.abs(board.pm.my-row*16-60+board.pm.dichy)<vat[mapo[col][row]].height) {
-						colli.checkObject(this,board.pm.mx,board.pm.my,board.pm.pwidth,board.pm.pheight,board.pm.vel, mapcolli, mapo[col][row]);
+						colli.checkObject(this,board.pm.mx+board.pm.dichx,board.pm.my+board.pm.dichy,board.pm.pwidth,board.pm.pheight,board.pm.vel, mapcolli, mapo[col][row]);
 							
 							if(event) {
-								
 								specialevent(g,col,row);
 							}
 							}
@@ -152,15 +152,17 @@ public class map {
 					row++;														// ve map tu mang da doc tu file txt
 				}
 				}
-		
-			for(int i=0;i<monsternum;i++) {
+			for(int i=0;i<monstermaxnum;i++) {
 				if(monster[i]!=null) {
 					 ve.vequai(g,i, monster,this);			// Ve quai vat
-					if(!monster[i].alive&&!monster[i].dying) {
+					if( monster[i].hp <=0) {
 						monsternum--;
-						monster[i]=null;			// quai vat bien mat sau khi chet
+						monster[i]=null;		// quai vat bien mat sau khi chet
 					}
 				}
+			}
+			if(boss) {
+				checkboss();
 			}
 			board.pm.Thanhmau(g);
 			}
@@ -169,12 +171,15 @@ public class map {
 	}
 	public void bang(Graphics g,String Thongbao) {
 		g.drawImage(bang, 234,0,board);
-		
+		g.setFont(new Font("Arial",Font.BOLD,16));
 		g.drawString(Thongbao, 260, 75);
 		board.timer.stop();
 		
 	}
-public void specialevent(Graphics g, int col, int row){
+	public void specialevent(Graphics g, int col, int row){
+		
+	}
+	public void checkboss() {
 		
 	}
 }

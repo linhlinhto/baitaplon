@@ -61,8 +61,6 @@ public class monster {
 		if(alive == true&&!dying) {
 			if(!atacked) {
 				if(!atack) {
-					
-					if(mx+width-board.pm.dichx>0&&mx-board.pm.dichx<768&&my+height-board.pm.dichy>0&&my-board.pm.dichy+60<560) {
 						if(monsteri<monsternumim*5) {
 							if(scalex == -1) {
 								this.monster = monsterim[monsteri/5].getImage();
@@ -77,7 +75,6 @@ public class monster {
 						else {
 							monsteri=1;
 						}
-					}
 			
 				monstermove(g);
 				}
@@ -94,12 +91,11 @@ public class monster {
 			
 			paintmonsterdying();
 		}
-		
+	
 		g.drawImage(this.monster,mx-board.pm.dichx,my-board.pm.dichy,board);
 		drawvat( mx, my, width, height, board.loadmap.lomap[board.loadmap.map],g);
-		
 		if(my+60-board.pm.dichy-32>0 && mx-board.pm.dichx-16>0 && my+60-board.pm.dichy<560-height && mx-board.pm.dichx<768-width) {
-			 colli.setCollisionm(board.loadmap.lomap[board.loadmap.map].mapcolli, mx-board.pm.dichx-16, my+32-board.pm.dichy, width, height,50+so);
+			 colli.setCollisionm(board.loadmap.lomap[board.loadmap.map].mapcolli, mx, my+48, width, height,50+so);
 			}
 }
 		
@@ -151,22 +147,25 @@ public class monster {
 		
 		if(mi>0) {
 			if((scaley*(ry-my))>vel) {
-				my=my+ scaley*vel;
-				if(my-board.pm.dichy+22>0 && mx-board.pm.dichx>0 && my+22-board.pm.dichy<560-height && mx-board.pm.dichx<768-width) {
+				my=my+ scaley*vel;	
+					colli.checkcollisionm( mx, my+32, width, height,vel,this, board.loadmap.lomap[board.loadmap.map],50+so);
 					
-					colli.checkcollisionm( mx-board.pm.dichx, my+22-board.pm.dichy, width, height,vel,this, board.loadmap.lomap[board.loadmap.map],50+so);
-					
-				}
 					if(atack==true) {
 						ry=my;
 						my=my-scaley*vel;
 						colli.collision = false;
 					}
 					else if(colli.collision==true) {
-						
-							my=my-scaley*vel;
-							mx = mx + scalex*vel;
+						if(detectplayer) {
+							my = my-scaley*vel;
+							mx = mx+scalex*vel;
 							colli.collision = false;
+						}
+						else {
+							ry=my;
+							my=my-scaley*vel;
+							colli.collision = false;
+						}
 							
 						}
 						
@@ -174,18 +173,25 @@ public class monster {
 					else {
 							if((scalex*(rx-mx))>vel) {
 							mx= mx + scalex*vel;
-							if(my+22-board.pm.dichy>0 && mx-board.pm.dichx>0 && my+22-board.pm.dichy<560-height && mx-board.pm.dichx<768-width) {
-								colli.checkcollisionm( mx-board.pm.dichx, my+22-board.pm.dichy, width, height,vel,this, board.loadmap.lomap[board.loadmap.map],50+so);
-							}
+							
+								colli.checkcollisionm( mx, my+32, width, height,vel,this, board.loadmap.lomap[board.loadmap.map],50+so);
 							if(atack==true) {
 								rx=mx;
 								mx=mx-scalex*vel;
 								colli.collision = false;
 							}
 							else if(colli.collision==true) {
+								if(detectplayer) {
 								mx=mx-scalex*vel;
 								my= my + scaley*vel;
 								colli.collision = false;
+								}
+								else {
+									rx = mx;
+									mx = mx- scalex*vel;
+									colli.collision = false;
+								}
+								
 							}
 							
 						}
@@ -222,11 +228,11 @@ public class monster {
 		
 	}
 	public void monsterhp(Graphics g){
-		hp=newhp;
-		if(hp<=0) {
+		if(newhp<=0) {
 			alive=false;
 			dying=true;
 		}
+		hp=newhp;
 		 if(counterhp<40&&alive) {
 		int hpwidth =(int) ((float)newhp/(float)maxhp *(float)width);
 		g.setColor(Color.red);
@@ -314,17 +320,23 @@ public class monster {
 		boolean canbreak=false;
 		for (int i=x;i<x+width;i++) {
 			for(int j=y-200;j<y+height;j++) {
-				if(j>0 && j<board.loadmap.maph && j%16==0) {
+				if(j>0  && j%16==0) {
+					if(j/16 < map.maph/16) {
 					for(int z=i/16-5;z<i/16+5;z++) {
-						if(z>0&&z<board.loadmap.mapw/16 && map.mapo[z][j/16]>4&& my+16< j+map.vat[map.mapo[z][j/16]].height) {
-							canbreak = true;
-							g.drawImage(map.vat[map.mapo[z][j/16]].anhvat,z*16-board.pm.dichx,j-board.pm.dichy+60,board);
-							if(board.pm.my>j+map.vat[map.mapo[z][j/16]].height) {
-								g.drawImage(board.pm.player, board.pm.mx,board.pm.my,board);
-								
+						if(z>0&&z<map.mapw/16 ) {
+							if(map.mapo[z][j/16]>4) {
+								if( my+height< j+map.vat[map.mapo[z][j/16]].height) {
+									canbreak = true;
+									g.drawImage(map.vat[map.mapo[z][j/16]].anhvat,z*16-board.pm.dichx,j-board.pm.dichy+60,board);
+									if(board.pm.my+board.pm.dichy > y+map.vat[map.mapo[z][j/16]].height+32) {
+										g.drawImage(board.pm.player, board.pm.mx,board.pm.my,board);
+				 						}
+
+								}
 							}
 						
 						}
+					}
 					}
 				}
 				if(canbreak) {

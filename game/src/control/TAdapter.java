@@ -33,7 +33,7 @@ import view.View;
         		this.board.ingame = false;
         		this.board.start.paused = true;
         	}
-         if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
+        	else if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
             left = true;
             up= false;
             down = false;
@@ -65,8 +65,9 @@ import view.View;
             left = false;
             Idle = false;
         }
-        else if(key == KeyEvent.VK_F) {
+        else if(key == KeyEvent.VK_F && !board.pm.cooldown) {
         	board.pm.slashbool = true;
+        	board.pm.cooldown = true;
         }
         else if(key == KeyEvent.VK_E) {
         	board.pm.healing = true;

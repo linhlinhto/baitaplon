@@ -17,33 +17,26 @@ public class ve {
 		this.board = board;
 	}
 	 public void vevat(Graphics g,int i,int x, int y,int[][] mapcolli, map map) {
-		 
  				x = x*16;
  				y = y*16;
- 				if(y+60+map.vat[i].height-board.pm.dichy>0 && x+map.vat[i].width-board.pm.dichx>0 && y+60-board.pm.dichy<560 && x-board.pm.dichx<768) {
+ 				
  					
- 					
- 					if(board.pm.my > y-board.pm.dichy &&board.pm.my < y-board.pm.dichy+map.vat[i].height+70&&board.pm.mx+26>x-board.pm.dichx&&board.pm.mx<x-board.pm.dichx+map.vat[i].width) {
- 						if(board.pm.my < y-board.pm.dichy+map.vat[i].height+32) {
+ 						if(board.pm.my+board.pm.dichy < y+map.vat[i].height+32) {
  	 					g.drawImage(map.vat[i].anhvat, x-board.pm.dichx, y+60-board.pm.dichy,board);
  						}
  						else {
  							
  	 	 					g.drawImage(map.vat[i].anhvat, x-board.pm.dichx, y+60-board.pm.dichy,board);
+ 	 	 					if(board.pm.mx+board.pm.dichx+board.pm.pwidth >= x && board.pm.mx+board.pm.dichx < x+map.vat[i].width) {
  	 	 					g.drawImage(board.pm.player, board.pm.mx,board.pm.my,board); 
+ 	 	 					}
  						}
- 	 					
- 					}
- 						else {
- 								g.drawImage(map.vat[i].anhvat, x-board.pm.dichx, y+60-board.pm.dichy,board);
- 		 						
- 						}
- 				}
  				
- 				if(y+60-board.pm.dichy>=0 && x-board.pm.dichx>=0 && y+60-board.pm.dichy<=560-map.vat[i].height && x-board.pm.dichx<=768-map.vat[i].width) {
- 					colli.setCollisionvat(mapcolli, x-board.pm.dichx, y+60-board.pm.dichy+map.vat[i].height-map.vat[i].colliheight, map.vat[i].width,map.vat[i].colliheight, i);
- 					
- 				}
+ 						colli.setCollisionvat(mapcolli, x, y+60+map.vat[i].height-map.vat[i].colliheight, map.vat[i].width,map.vat[i].colliheight,i);
+
+ 						
+ 					x= x/16;
+ 					y = y/16;
  				
  			
 	    }
@@ -62,8 +55,8 @@ public class ve {
 	 						int hpwidth =(int) ((float)monster[number].newhp/(float)monster[number].maxhp *560f);
 	 						
 	 						g.setColor(Color.red);
-	 						g.fillRect(96, 64, hpwidth, 6);
-	 						g.drawRect(96,64,560,6);
+	 						g.fillRect(96, 64, hpwidth, 16);
+	 						g.drawRect(96,64,560,16);
 	 						g.setFont(new Font(Boss, Font.BOLD, 48));
 	 						}
 	 					}

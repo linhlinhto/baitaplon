@@ -41,8 +41,9 @@ public class map2 extends map {
 		
 		}
 		public void monster() {
-			this.monsternum = 8;
-			this.monster = new monster[monsternum];
+			this.monstermaxnum =8;
+			this.monsternum = this.monstermaxnum;
+			this.monster = new monster[this.monstermaxnum];
 
 			this.spwammonster(this.monster,0,128,248,2);
 			this.spwammonster(this.monster,1,268,248,2);
@@ -110,23 +111,23 @@ public class map2 extends map {
 		int rate;
 		g.setColor(Color.WHITE);
 		if(inruong==0) {
-		rate =  r.nextInt(100);
-		
-		if(rate<75 ) {
+			rate =  r.nextInt(100);
 			
-			thongbao="Ban nhan duoc 1 binh mau";
-			board.pm.poison++;
+			if(rate<75 ) {
+				
+				thongbao="Bạn nhận được 1 bình máu";
+				board.pm.poison++;
+				inruong++;
+				inbang=true;
+			}
+			}
+			else if(inruong==2) {
+			rate = r.nextInt(200);
+			thongbao = "Bạn nhận được "+rate+" exp";
+			board.pm.exp +=rate;
 			inruong++;
 			inbang=true;
-		}
-		}
-		else if(inruong==2) {
-		rate = r.nextInt(200);
-		thongbao = "ban nhan duoc "+rate+" exp";
-		board.pm.exp +=rate;
-		inruong++;
-		inbang=true;
-		}
+			}
 		if(inbang == true) {
 		bang(g,thongbao);
 		}

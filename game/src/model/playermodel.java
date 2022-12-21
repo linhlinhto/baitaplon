@@ -17,10 +17,10 @@ import view.View;
 		public int dichx,dichy;
 		public int left,right,down,up;
 		public Image player;
-		public boolean slashbool,healing;
+		public boolean slashbool,healing,cooldown;
 		Image slash,Poison;
 		ImageIcon[] slashi;
-		int atackspeed,slashdame,slasrangex,slashrangey;
+		int atackspeed,slashdame,slasrangex,slashrangey,cooltime;
 		ImageIcon pIdle1,pIdle2,pIdle3,pIdle4,pleft1,pleft2,pright1,pright2,pup1,pup2,pdown1,pdown2,poisons;
 		View board;
 		public playermodel(View board) {
@@ -28,12 +28,13 @@ import view.View;
 			Initplayer();
 		}
 		public void Initplayer() {
-			level=1;
-			maxlevel=20;
+		
+			maxlevel=20*board.start.dokho;
+			level=maxlevel;
 			exp=0;
 			expneeded = 60;
 			poison=2;
-			maxhp=40+level*5;
+			maxhp=50+level*20;
 			mau = maxhp;
 			mx = 384;
 			my = 256;
@@ -45,6 +46,8 @@ import view.View;
 			left =0;
 			down =1;
 			atackspeed=0;
+			cooldown = false;
+			cooltime = 50;
 			up=0;
 			right=0;
 			slashdame = 5;
@@ -242,19 +245,23 @@ import view.View;
 			Exp(g);
 		}
 		public void Exp(Graphics g) {
-			if(exp >= expneeded) {
+			int exp = this.exp;
+			if(this.exp >= expneeded) {
 				
-				if(level<=maxlevel && !board.loadmap.lomap[board.loadmap.map].event) {
+				if(level<maxlevel && !board.loadmap.lomap[board.loadmap.map].event) {
 					
 						level++;
 						String levelup= "                level up to "+level ;
-						exp = exp-expneeded;
+						this.exp = this.exp-expneeded;
 						expneeded += level*20;
 						board.loadmap.lomap[board.loadmap.map].inbang = true;
 					if(board.loadmap.lomap[board.loadmap.map].inbang) {
 						board.loadmap.lomap[board.loadmap.map].bang(g, levelup);
 						}
 					}
+				else {
+					exp = this.expneeded;
+				}
 			}
 				
 			int drawexp = (int)((float)exp/(float)expneeded  *200);
@@ -401,7 +408,7 @@ import view.View;
 				}
 			}
 			if(!slashbool) {
-				for(int i = 0;i<board.loadmap.lomap[board.loadmap.map].monsternum;i++) {
+				for(int i = 0;i<board.loadmap.lomap[board.loadmap.map].monstermaxnum;i++) {
 					if(board.loadmap.lomap[board.loadmap.map].monster[i] != null) {
 					colli.checkslash(this,board.loadmap.lomap[board.loadmap.map].monster ,i ,board.loadmap.lomap[board.loadmap.map].mapcolli,scale );
 					}
@@ -431,6 +438,15 @@ import view.View;
 		}
 			else {
 				healing = false;
+			}
+		}
+		public void cooldown() {
+			if(cooltime > 0) {
+			cooltime--;
+			}
+			else {
+				cooldown = false;
+				cooltime=50;
 			}
 		}
 		

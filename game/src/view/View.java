@@ -66,11 +66,13 @@ public class View extends JPanel implements ActionListener  {
 		if(pm.healing) {
 			pm.heal();
 		}
-		
+		if(pm.cooldown) {
+			pm.cooldown();
+		}
 		
 		 if(move.right && !move.Idle ) {
 			 pm.moveright();
-			 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight, loadmap.lomap[loadmap.map].mapcolli,loadmap,pm);
+			 colli.checkcollision(pm.mx+pm.dichx,pm.my+pm.dichy,pm.pwidth,pm.pheight, loadmap.lomap[loadmap.map].mapcolli,loadmap,this);
 				if(colli.collision == true) {
 				pm.mx -=pm.vel;
 				move.right = false;
@@ -80,7 +82,7 @@ public class View extends JPanel implements ActionListener  {
 		 }
 		if(move.left && !move.Idle) {
 				pm.moveleft();
-				colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight, loadmap.lomap[loadmap.map].mapcolli,loadmap,pm);
+				 colli.checkcollision(pm.mx+pm.dichx,pm.my+pm.dichy,pm.pwidth,pm.pheight, loadmap.lomap[loadmap.map].mapcolli,loadmap,this);
 					if(colli.collision == true) {
 					pm.mx +=pm.vel;
 					move.left = false;
@@ -90,7 +92,7 @@ public class View extends JPanel implements ActionListener  {
 		}
 		if(move.up && !move.Idle) {
 				pm.moveup();
-				 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight, loadmap.lomap[loadmap.map].mapcolli,loadmap,pm);
+				 colli.checkcollision(pm.mx+pm.dichx,pm.my+pm.dichy,pm.pwidth,pm.pheight, loadmap.lomap[loadmap.map].mapcolli,loadmap,this);
 					if(colli.collision == true) {
 					pm.my +=pm.vel;
 					move.up = false;
@@ -100,7 +102,7 @@ public class View extends JPanel implements ActionListener  {
 		}
 		if(move.down && !move.Idle) {
 				pm.movedown();
-				 colli.checkcollision(pm.mx,pm.my,pm.pwidth,pm.pheight, loadmap.lomap[loadmap.map].mapcolli,loadmap,pm);
+				 colli.checkcollision(pm.mx+pm.dichx,pm.my+pm.dichy,pm.pwidth,pm.pheight, loadmap.lomap[loadmap.map].mapcolli,loadmap,this);
 					if(colli.collision == true) {
 					pm.my -=pm.vel;
 					move.down = false;
