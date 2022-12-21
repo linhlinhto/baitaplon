@@ -232,7 +232,9 @@ public class monster {
 			alive=false;
 			dying=true;
 		}
+		else {
 		hp=newhp;
+		}
 		 if(counterhp<40&&alive) {
 		int hpwidth =(int) ((float)newhp/(float)maxhp *(float)width);
 		g.setColor(Color.red);
@@ -252,6 +254,7 @@ public class monster {
 		}
 		else {
 			this.dying=false;
+			hp=newhp;
 		}
 		
 	}
@@ -324,10 +327,10 @@ public class monster {
 					for(int z=i/16-5;z<i/16+5;z++) {
 						if(z>0&&z<map.mapw/16 ) {
 							if(map.mapo[z][j/16]>4) {
-								if( my+height< j+map.vat[map.mapo[z][j/16]].height) {
+								if( my+height< j+map.vat[map.mapo[z][j/16]].height+32) {
 									canbreak = true;
 									g.drawImage(map.vat[map.mapo[z][j/16]].anhvat,z*16-board.pm.dichx,j-board.pm.dichy+60,board);
-									if(board.pm.my+board.pm.dichy > y+map.vat[map.mapo[z][j/16]].height+32) {
+									if(board.pm.my+board.pm.dichy > j+map.vat[map.mapo[z][j/16]].height+32&&board.pm.my+board.pm.dichy < j+map.vat[map.mapo[z][j/16]].height+60&&board.pm.mx+board.pm.dichx+board.pm.pwidth >= z*16 && board.pm.mx+board.pm.dichx < z*16+map.vat[map.mapo[z][j/16]].width) {
 										g.drawImage(board.pm.player, board.pm.mx,board.pm.my,board);
 				 						}
 

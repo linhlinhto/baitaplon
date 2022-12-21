@@ -61,8 +61,8 @@ public class Collider {
 				else if(mapcolli[i][j] == 3 && mapcolli[i][j]<4) {
 					board.pm.dichx = 584;
 					board.pm.mx = 384;
-					board.pm.my = 500;
-					board.pm.dichy = 590;
+					board.pm.my = 480;
+					board.pm.dichy = 608;
 					loadmap.map=3;
 					break;
 				}
@@ -81,7 +81,7 @@ public class Collider {
 	public void checkcollisionm(int x, int y,int width,int height,int vel,monster monster, map map,int so) {   // kiem tra va cham 
 		for (int i=x;i<x+width+32;i++) {
 			for(int j=y;j<y+height;j++) {
-				if( map.mapcolli[i][j] >= 4 && map.mapcolli[i][j] < 50) {
+				if( (map.mapcolli[i][j] >= 4 && map.mapcolli[i][j] < 50) || map.mapcolli[i][j] == 100 || map.mapcolli[i][j] == 99) {
 					collision = true;
 					break;
 				}
