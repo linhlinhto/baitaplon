@@ -20,7 +20,7 @@ public class Dragon_fly1 extends monster {
 		Initmonster();
 	}
 	public void Initmonster() {
-		expgived= 10; // diem giet quai
+		expgived= 45; // diem giet quai
 		
 		rangex=100; //pham vi ra don
 		rangey=100; //pham vi ra don

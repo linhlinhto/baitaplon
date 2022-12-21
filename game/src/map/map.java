@@ -156,6 +156,7 @@ public class map {
 				if(monster[i]!=null) {
 					 ve.vequai(g,i, monster,this);			// Ve quai vat
 					if( monster[i].hp <=0) {
+						board.pm.exp += monster[i].expgived;
 						monsternum--;
 						monster[i]=null;		// quai vat bien mat sau khi chet
 					}

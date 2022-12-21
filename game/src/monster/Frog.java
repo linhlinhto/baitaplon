@@ -14,7 +14,7 @@ public class Frog extends monster {
 		Initmonster();
 	}
 	public void Initmonster() {
-		expgived= 10;
+		expgived= 30;
 		checkimage=0;
 		rangex=32;
 		rangey=0;

@@ -14,7 +14,7 @@ public class Spore1 extends monster {
 		Initmonster();
 	}
 	public void Initmonster() {
-		expgived= 10;
+		expgived= 35;
 		checkimage=0;
 		rangex=16;
 		rangey=0;

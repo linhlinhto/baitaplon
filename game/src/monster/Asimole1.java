@@ -14,7 +14,7 @@ public class Asimole1 extends monster {
 		Initmonster();
 	}
 	public void Initmonster() {
-		expgived= 10;
+		expgived= 0;
 		checkimage=0;
 		rangex=48;
 		rangey=0;

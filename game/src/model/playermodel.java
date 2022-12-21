@@ -28,13 +28,12 @@ import view.View;
 			Initplayer();
 		}
 		public void Initplayer() {
-		
+			level=1;
 			maxlevel=20*board.start.dokho;
-			level=maxlevel;
 			exp=0;
 			expneeded = 60;
 			poison=2;
-			maxhp=50+level*20;
+			maxhp=50+level*30;
 			mau = maxhp;
 			mx = 384;
 			my = 256;
@@ -47,7 +46,7 @@ import view.View;
 			down =1;
 			atackspeed=0;
 			cooldown = false;
-			cooltime = 50;
+			cooltime = 20;
 			up=0;
 			right=0;
 			slashdame = 5;
@@ -426,7 +425,7 @@ import view.View;
 				}
 				else if(counterheal<300) {
 					if(counterheal%30==0 && mau<maxhp) {
-					mau++;
+					mau+=maxhp*3/100 ;
 					}
 					counterheal++;
 				}
@@ -446,7 +445,7 @@ import view.View;
 			}
 			else {
 				cooldown = false;
-				cooltime=50;
+				cooltime=20;
 			}
 		}
 		

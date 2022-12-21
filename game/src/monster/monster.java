@@ -252,7 +252,6 @@ public class monster {
 		}
 		else {
 			this.dying=false;
-			board.pm.exp +=expgived;
 		}
 		
 	}
